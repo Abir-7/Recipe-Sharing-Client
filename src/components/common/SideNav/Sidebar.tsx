@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import React, { useState } from "react";
+import { LogOut } from "../logoutButton/LogOut";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,6 +41,7 @@ const Sidebar = () => {
       >
         User Dashboard
       </Link>
+      <LogOut></LogOut>
 
       <div className="w-full grid gap-4">
         <p
@@ -67,7 +69,6 @@ const Sidebar = () => {
     </nav>
   );
 
-  console.log(pathname);
   return (
     <div className="flex relative">
       <div

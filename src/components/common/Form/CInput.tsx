@@ -9,19 +9,33 @@ interface ICInput {
   placeHolder?: string;
   label: string;
   name: string;
+  required?: boolean;
 }
 
-const CInput = ({ type = "text", placeHolder, label, name }: ICInput) => {
-  const { control } = useFormContext();
+const CInput = ({
+  type = "text",
+  placeHolder,
+  label,
+  name,
+  required = false,
+}: ICInput) => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
   return (
     <Controller
       defaultValue={""}
       control={control}
       name={name}
+      rules={{ required: required }}
       render={({ field }) => (
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor={name}>{label}</Label>
           <Input {...field} type={type} placeholder={placeHolder} />
+          {errors[name] && (
+            <span className="text-red-500">This field is required</span>
+          )}
         </div>
       )}
     />

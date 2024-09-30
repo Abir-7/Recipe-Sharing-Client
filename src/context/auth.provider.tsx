@@ -38,8 +38,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    handleUser(); // Only run on mount
-  }, []); // No dependencies, runs once on mount
+    handleUser();
+  }, [isLoading]);
 
   const value = useMemo(
     () => ({ user, isLoading, setUser, setIsLoading }),

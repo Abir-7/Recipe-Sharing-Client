@@ -50,3 +50,35 @@ export const getCurrentUser = async () => {
 export const logOutUser = async () => {
   cookies().delete("accessToken");
 };
+
+export const resetPass = async (userEmail: { email: string }) => {
+  try {
+    console.log(userEmail);
+    const { data } = await axiosInstance.post("/auth/reset", userEmail);
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.errorMessages, "gg");
+    if (error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error);
+    }
+  }
+};
+
+export const changePass = async (passData: {
+  token: string;
+  password: string;
+}) => {
+  try {
+    const { data } = await axiosInstance.post("/user/update-pass", passData);
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.errorMessages, "gg");
+    if (error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error);
+    }
+  }
+};

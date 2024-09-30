@@ -8,12 +8,14 @@ import CInput from "@/components/common/Form/CInput";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AuthContext } from "@/context/auth.provider";
 import { useUserLogin, useUserRegistration } from "@/hooks/auth.hook";
 import { uploadImageToCloudinary } from "@/utils/uplaodImage";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
+import { ResetPassModal } from "./ResetPassModal";
 
 const Login_Signup = () => {
   const searchParams = useSearchParams();
@@ -22,16 +24,13 @@ const Login_Signup = () => {
   const { mutate: userReg } = useUserRegistration();
   const { mutate: userLogin, isPending, isSuccess } = useUserLogin();
   const [activeTab, setActiveTab] = useState<string>("signin");
+  const authData = useContext(AuthContext);
   const onFormSubmit = async (userdata: FieldValues) => {
     const { userName, email, password, photo } = userdata;
 
     if (activeTab === "signin") {
       userLogin(userdata);
-      if (!isPending && isSuccess && redirects) {
-        router.push(redirects);
-      } else {
-        router.push("/");
-      }
+      authData?.setIsLoading(true);
     } else {
       if (photo) {
         const uploadedImageUrl = await uploadImageToCloudinary(photo);
@@ -58,6 +57,14 @@ const Login_Signup = () => {
   const handleTabChange = (value: string) => {
     setActiveTab(value);
   };
+
+  if (!isPending && isSuccess) {
+    if (redirects) {
+      router.push(redirects as string);
+    } else {
+      router.push("/");
+    }
+  }
   return (
     <div className="flex justify-center items-center h-screen">
       <Tabs
@@ -88,6 +95,7 @@ const Login_Signup = () => {
                   <CButton cssClass="" text="Login"></CButton>
                 </div>
               </CForm>
+              <ResetPassModal></ResetPassModal>
             </CardContent>
           </Card>
         </TabsContent>

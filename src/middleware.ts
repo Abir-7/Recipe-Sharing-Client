@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const user = await getCurrentUser();
-  console.log(pathname, user, "gg");
+
   if (!user) {
     if (AuthRoutes.includes(pathname)) {
       return NextResponse.next();
@@ -36,5 +36,11 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/login-signup", "/admin/:page*", "/user/:page*"],
+  matcher: [
+    "/login-signup",
+    "/admin/:page*",
+    "/user/:page*",
+    "/admin",
+    "/user",
+  ],
 };

@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 
