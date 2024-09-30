@@ -2,7 +2,8 @@
 import CButton from "@/components/common/Form/CButton";
 import CForm from "@/components/common/Form/CForm";
 import CInput from "@/components/common/Form/CInput";
-import { useChangePass } from "@/hooks/auth.hook";
+import { useSetNewPass } from "@/hooks/auth.hook";
+
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { FieldValues } from "react-hook-form";
@@ -13,15 +14,14 @@ const ResetPassword = () => {
   const searchParams = useSearchParams(); // Access query params
   const token = searchParams.get("token");
   const email = searchParams.get("email");
-  console.log(token);
-  const { mutate: changePassword } = useChangePass();
+
+  const { mutate: changePassword } = useSetNewPass();
 
   if (!token && !email) {
     router.push("/");
   }
 
   const onFormSubmit = async (data: FieldValues) => {
-    console.log(data);
     if (data.password !== data.cPassword) {
       toast.error("Password not matched.");
     } else {

@@ -9,7 +9,6 @@ export const ResetPassModal = () => {
   const [email, setEmail] = useState(""); // State to hold the input value
 
   const handleSend = () => {
-    console.log(email);
     resetPassword({ email: email });
     setEmail("");
   };

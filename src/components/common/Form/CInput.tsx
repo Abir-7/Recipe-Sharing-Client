@@ -30,9 +30,14 @@ const CInput = ({
       name={name}
       rules={{ required: required }}
       render={({ field }) => (
-        <div className="grid w-full max-w-sm items-center gap-1.5">
+        <div className="grid w-full  items-center gap-1.5">
           <Label htmlFor={name}>{label}</Label>
-          <Input {...field} type={type} placeholder={placeHolder} />
+          <Input
+            className="w-full"
+            {...field}
+            type={type}
+            placeholder={placeHolder}
+          />
           {errors[name] && (
             <span className="text-red-500">This field is required</span>
           )}

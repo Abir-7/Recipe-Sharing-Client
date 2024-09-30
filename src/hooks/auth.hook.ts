@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { IUserProfile } from "@/interface/userProfile.interface";
 import {
-  changePass,
+  changePassword,
+  changeUserInfo,
   loginUser,
   registerUser,
   resetPass,
+  setNewPass,
 } from "@/services/AuthService";
 import { useMutation } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
@@ -47,12 +50,38 @@ export const useResetPass = () => {
     },
   });
 };
-export const useChangePass = () => {
+export const useSetNewPass = () => {
   return useMutation<any, Error, { token: string; password: string }>({
     mutationKey: ["RESET_PASS"],
-    mutationFn: async (userEmail) => await changePass(userEmail),
+    mutationFn: async (data) => await setNewPass(data),
     onSuccess: () => {
       toast.success("Password reset successful.");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useUpdatePass = () => {
+  return useMutation<any, Error, { oldPass: string; newPass: string }>({
+    mutationKey: ["UPDATE_PASS"],
+    mutationFn: async (pass) => await changePassword(pass),
+    onSuccess: () => {
+      toast.success("Password changed successfuly.");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useUserInfoUpdate = () => {
+  return useMutation<any, Error, Partial<IUserProfile>>({
+    mutationKey: ["UPDATE_USER"],
+    mutationFn: async (data) => await changeUserInfo(data),
+    onSuccess: () => {
+      toast.success("User updated successfuly.");
     },
     onError: (error) => {
       toast.error(error.message);

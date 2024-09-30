@@ -4,13 +4,13 @@ import { jwtDecode } from "jwt-decode";
 import axiosInstance from "@/lib/axiosInstance";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
+import { IUserProfile } from "@/interface/userProfile.interface";
 
 export const registerUser = async (userData: FieldValues) => {
   try {
     const { data } = await axiosInstance.post("/user/signup", userData);
     return data;
   } catch (error: any) {
-    console.log(error.response.data.errorMessages);
     if (error.response.data.message) {
       throw new Error(error.response.data.message);
     } else {
@@ -53,8 +53,23 @@ export const logOutUser = async () => {
 
 export const resetPass = async (userEmail: { email: string }) => {
   try {
-    console.log(userEmail);
     const { data } = await axiosInstance.post("/auth/reset", userEmail);
+    return data;
+  } catch (error: any) {
+    if (error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error);
+    }
+  }
+};
+
+export const setNewPass = async (passData: {
+  token: string;
+  password: string;
+}) => {
+  try {
+    const { data } = await axiosInstance.patch("/user/set-pass", passData);
     return data;
   } catch (error: any) {
     console.log(error.response.data.errorMessages, "gg");
@@ -66,15 +81,29 @@ export const resetPass = async (userEmail: { email: string }) => {
   }
 };
 
-export const changePass = async (passData: {
-  token: string;
-  password: string;
+export const changePassword = async (passData: {
+  oldPass: string;
+  newPass: string;
 }) => {
   try {
-    const { data } = await axiosInstance.post("/user/update-pass", passData);
+    const { data } = await axiosInstance.patch("/user/update-pass", passData);
     return data;
   } catch (error: any) {
-    console.log(error.response.data.errorMessages, "gg");
+    console.log(error.response.data.errorMessages, "gg4");
+    if (error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error);
+    }
+  }
+};
+
+export const changeUserInfo = async (userData: Partial<IUserProfile>) => {
+  try {
+    const { data } = await axiosInstance.patch("/user/upate-profile", userData);
+    return data;
+  } catch (error: any) {
+    console.log(error.response.data.errorMessages, "gg2");
     if (error.response.data.message) {
       throw new Error(error.response.data.message);
     } else {

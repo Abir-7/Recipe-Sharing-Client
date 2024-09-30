@@ -3,9 +3,8 @@ import React, { ReactNode } from "react";
 
 const layout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex">
-      <Sidebar />
-      <main className="flex-1">{children}</main>
+    <div className="">
+      <Sidebar>{children}</Sidebar>
     </div>
   );
 };

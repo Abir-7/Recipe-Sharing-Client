@@ -13,14 +13,12 @@ export const LogOut = () => {
   const router = useRouter();
   const pathName = usePathname();
   const authData = useContext(AuthContext);
-  console.log(pathName);
 
   const handleLogout = async () => {
     await logOutUser();
     authData?.setUser(null);
     if (
       config.matcher.some((route) => {
-        console.log(route);
         return pathName.match(route);
       })
     ) {
