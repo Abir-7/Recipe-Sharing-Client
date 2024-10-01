@@ -20,8 +20,8 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
       {/* Sidebar */}
       <div
         className={`fixed inset-y-0 left-0 transform lg:translate-x-0 z-10 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out bg-gray-950 text-white w-64 lg:w-[300px] lg:static`}
+          isOpen ? "translate-x-0 w-64 text-nowrap" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out bg-gray-950 text-nowrap text-white w-64  lg:static`}
       >
         <div className="flex items-center justify-between p-4">
           <h1 className="text-xl font-bold">Menu</h1>

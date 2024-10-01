@@ -47,14 +47,24 @@ const UserLink = () => {
         {isServicesOpen && (
           <div className="pl-4 grid gap-4 w-full">
             <Link
-              href="/user/about"
+              href="/user/add-recipe"
               className={
-                pathname == "/user/about"
+                pathname == "/user/add-recipe"
                   ? "bg-yellow-400 px-4 text-gray-950 font-semibold py-1 rounded-xl border-2 border-white"
                   : " w-full px-4 py-1 font-semibold rounded-xl border border-yellow-400"
               }
             >
-              Add Recipesss
+              Add Recipe
+            </Link>
+            <Link
+              href="/user/my-recipe"
+              className={
+                pathname == "/user/my-recipe"
+                  ? "bg-yellow-400 px-4 text-gray-950 font-semibold py-1 rounded-xl border-2 border-white"
+                  : " w-full px-4 py-1 font-semibold rounded-xl border border-yellow-400"
+              }
+            >
+              My Recipe
             </Link>
           </div>
         )}
