@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IUserProfile } from "@/interface/userProfile.interface";
+import { ICustomerProfile } from "@/interface/userProfile.interface";
 import {
   changePassword,
   changeUserInfo,
@@ -77,7 +77,7 @@ export const useUpdatePass = () => {
 };
 
 export const useUserInfoUpdate = () => {
-  return useMutation<any, Error, Partial<IUserProfile>>({
+  return useMutation<any, Error, Partial<ICustomerProfile>>({
     mutationKey: ["UPDATE_USER"],
     mutationFn: async (data) => await changeUserInfo(data),
     onSuccess: () => {

@@ -7,19 +7,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { ReactNode } from "react";
 
 interface ModalProps {
   title: string;
   description: string;
   children?: React.ReactNode; // Optional children prop
-  btnText: string;
-  btnType:
+  btnText?: string;
+  btnType?:
     | "link"
     | "default"
     | "destructive"
     | "outline"
     | "secondary"
-    | "ghost";
+    | "ghost"
+    | null;
+  icon?: ReactNode;
+  btnCss?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -28,11 +32,16 @@ const Modal: React.FC<ModalProps> = ({
   btnText,
   description,
   children,
+  icon,
+  btnCss = "",
 }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={btnType}>{btnText}</Button>
+        <Button variant={btnType} className={`${btnCss} duration-200`}>
+          {btnText}
+          {icon}
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

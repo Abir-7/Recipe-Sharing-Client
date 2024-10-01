@@ -16,8 +16,26 @@ export const Navbar = () => {
     { name: "Recipies", url: "/recipies" },
   ];
   const authLink = [
-    { name: "Dashboard", url: `/${user?.role}/dashboard` },
-    { name: "Edit Profile", url: `/${user?.role}/edit-profile` },
+    {
+      name: "Dashboard",
+      url: `/${
+        user?.role == "admin"
+          ? "admin"
+          : user?.role == "superAdmin"
+          ? "admin"
+          : "user"
+      }/dashboard`,
+    },
+    {
+      name: "Edit Profile",
+      url: `//${
+        user?.role == "admin"
+          ? "admin"
+          : user?.role == "superAdmin"
+          ? "admin"
+          : "user"
+      }/edit-profile`,
+    },
   ];
 
   return (

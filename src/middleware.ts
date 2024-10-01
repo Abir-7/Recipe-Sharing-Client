@@ -6,6 +6,7 @@ const AuthRoutes = ["/login-signup"];
 type Role = keyof typeof roleBasedRoutes;
 
 const roleBasedRoutes = {
+  superAdmin: [/^\/admin/],
   admin: [/^\/admin/],
   user: [/^\/user/],
 };

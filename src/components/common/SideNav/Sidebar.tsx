@@ -1,87 +1,19 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 import React, { ReactNode, useContext, useState } from "react";
 import { AuthContext } from "@/context/auth.provider";
+import UserLink from "./UserLink";
+import AdminLink from "./AdminLink";
 
 const Sidebar = ({ children }: { children: ReactNode }) => {
-  const AuthData = useContext(AuthContext);
+  const authData = useContext(AuthContext);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-
-  const toggleServices = () => {
-    setIsServicesOpen(!isServicesOpen);
-  };
-
-  const pathname = usePathname();
-
-  const userLink = (
-    <nav className="flex flex-col p-4 space-y-4">
-      <Link
-        href="/user/dashboard"
-        className={
-          pathname == "/user/dashboard"
-            ? "bg-yellow-400 px-4 py-1 rounded-xl border-2 border-white"
-            : " w-full px-4 py-1 rounded-xl border border-yellow-400"
-        }
-      >
-        User Dashboard
-      </Link>
-      <Link
-        href="/user/manage-profile"
-        className={
-          pathname == "/user/edit-profile"
-            ? "bg-yellow-400 px-4 py-1 rounded-xl border-2 text-gray-950 font-semibold border-white"
-            : " w-full px-4 py-1 rounded-xl border font-semibold border-yellow-400"
-        }
-      >
-        Manage Profile
-      </Link>
-
-      <div className="w-full grid gap-2">
-        <p
-          className={
-            "w-full px-4 py-1 font-semibold rounded-xl border border-yellow-400"
-          }
-          onClick={toggleServices}
-        >
-          Manage Recipe
-          <span>{isServicesOpen ? "-" : "+"}</span>
-        </p>
-        {isServicesOpen && (
-          <div className="pl-4 grid gap-4 w-full">
-            <Link
-              href="/user/about"
-              className={
-                pathname == "/user/about"
-                  ? "bg-yellow-400 px-4 text-gray-950 font-semibold py-1 rounded-xl border-2 border-white"
-                  : " w-full px-4 py-1 font-semibold rounded-xl border border-yellow-400"
-              }
-            >
-              Add Recipesss
-            </Link>
-          </div>
-        )}
-      </div>
-      <Link
-        href="/"
-        className={
-          pathname == "/"
-            ? "bg-yellow-400 px-4 py-1 text-gray-950 font-semibold rounded-xl border-2 border-white"
-            : " w-full px-4 py-1 rounded-xl font-semibold border border-yellow-400"
-        }
-      >
-        Home
-      </Link>
-    </nav>
-  );
 
   return (
     <div className="flex min-h-screen w-full">
@@ -103,7 +35,9 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
           </Button>
         </div>
         {/* Sidebar Links */}
-        {AuthData?.user?.role == "user" && userLink}
+        {authData?.user?.role === "user" && <UserLink></UserLink>}
+        {authData?.user?.role === "admin" ||
+          (authData?.user?.role === "superAdmin" && <AdminLink />)}
       </div>
 
       {/* Content Section */}

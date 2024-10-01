@@ -1,9 +1,9 @@
 // components/UserProfile.tsx
 import React from "react";
 import Image from "next/image";
-import { IUserProfile } from "@/interface/userProfile.interface";
+import { ICustomerProfile } from "@/interface/userProfile.interface";
 
-const UserProfile = ({ userData }: { userData: IUserProfile }) => {
+const UserProfile = ({ userData }: { userData: ICustomerProfile }) => {
   return (
     <div className="max-w-md shadow mx-auto rounded-xl overflow-hidden mt-10">
       <div className="sm:flex sm:items-center px-6 py-4">

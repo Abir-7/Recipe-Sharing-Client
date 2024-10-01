@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import axiosInstance from "@/lib/axiosInstance";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
-import { IUserProfile } from "@/interface/userProfile.interface";
+import { ICustomerProfile } from "@/interface/userProfile.interface";
 
 export const registerUser = async (userData: FieldValues) => {
   try {
@@ -98,7 +98,7 @@ export const changePassword = async (passData: {
   }
 };
 
-export const changeUserInfo = async (userData: Partial<IUserProfile>) => {
+export const changeUserInfo = async (userData: Partial<ICustomerProfile>) => {
   try {
     const { data } = await axiosInstance.patch("/user/upate-profile", userData);
     return data;
