@@ -72,7 +72,6 @@ export const setNewPass = async (passData: {
     const { data } = await axiosInstance.patch("/user/set-pass", passData);
     return data;
   } catch (error: any) {
-    console.log(error.response.data.errorMessages, "gg");
     if (error.response.data.message) {
       throw new Error(error.response.data.message);
     } else {
@@ -89,7 +88,6 @@ export const changePassword = async (passData: {
     const { data } = await axiosInstance.patch("/user/update-pass", passData);
     return data;
   } catch (error: any) {
-    console.log(error.response.data.errorMessages, "gg4");
     if (error.response.data.message) {
       throw new Error(error.response.data.message);
     } else {
@@ -103,7 +101,6 @@ export const changeUserInfo = async (userData: Partial<ICustomerProfile>) => {
     const { data } = await axiosInstance.patch("/user/upate-profile", userData);
     return data;
   } catch (error: any) {
-    console.log(error.response.data.errorMessages, "gg2");
     if (error.response.data.message) {
       throw new Error(error.response.data.message);
     } else {

@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import envConfig from "@/config/envConfig";
 
-export const uploadImageToCloudinary = async (file: File) => {
+export const uploadImageToCloudinary = async (file: any) => {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", envConfig.cloudinary_preset as string);

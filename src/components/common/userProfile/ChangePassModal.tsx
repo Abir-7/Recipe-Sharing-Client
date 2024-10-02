@@ -10,8 +10,6 @@ import CButton from "../Form/CButton";
 const ChangePassModal = () => {
   const { mutate: updateUserPass } = useUpdatePass();
   const onFormSubmit = async (data: FieldValues) => {
-    console.log(data);
-
     if (data.password !== data.cPassword) {
       toast.error("Password not matched.");
     } else {

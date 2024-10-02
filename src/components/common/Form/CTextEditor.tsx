@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 import { uploadImageToCloudinary } from "@/utils/uplaodImage";
-import React from "react";
+import React, { useCallback } from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -10,93 +10,106 @@ const modules = {
   toolbar: {
     container: [
       [{ header: "1" }, { header: "2" }, { font: [] }],
-
+      [{ size: [] }],
       ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ align: [] }],
       [{ list: "ordered" }, { list: "bullet" }],
       ["link", "image", "video"],
       ["clean"],
     ],
-    handlers: {
-      image: function () {
-        // Use a regular function to get proper `this` context
-        const input = document.createElement("input");
-        input.setAttribute("type", "file");
-        input.setAttribute("accept", "image/*");
-        input.click();
-
-        input.onchange = async () => {
-          const file = input.files ? input.files[0] : null;
-          if (file) {
-            try {
-              // Resize the image before uploading
-              const resizedFile = await resizeImage(file, 400); // Resize to 400px width
-
-              // Call the upload function and wait for the response
-              const responseLink = await uploadImageToCloudinary(resizedFile);
-
-              if (responseLink) {
-                const quill = (this as any).quill; // Use 'as any' to bypass TypeScript error
-                const range = quill.getSelection(true); // Get the current cursor position
-
-                // Insert the image URL directly if the response returns a URL
-                quill.insertEmbed(range.index, "image", responseLink); // Insert the image URL
-                quill.setSelection(range.index + 1); // Move cursor to the right of the image
-              } else {
-                console.error("Image upload failed");
-              }
-            } catch (error) {
-              console.error("Error uploading image:", error);
-            }
-          }
-        };
-      },
-    },
   },
 };
 
 // Function to resize the image
-const resizeImage = (file: File, maxWidth: number): Promise<File> => {
+const resizeImage = (
+  file: File,
+  maxWidth: number,
+  maxHeight: number
+): Promise<Blob> => {
   return new Promise((resolve, reject) => {
     const img = new Image();
     const reader = new FileReader();
 
-    reader.onload = (e) => {
-      if (e.target?.result) {
-        img.src = e.target.result as string;
+    reader.onload = (event) => {
+      if (event.target) {
+        img.src = event.target.result as string;
       }
     };
-
-    reader.onerror = (error) => reject(error);
-    reader.readAsDataURL(file);
 
     img.onload = () => {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
-      if (ctx) {
-        const ratio = img.height / img.width;
-        canvas.width = maxWidth;
-        canvas.height = maxWidth * ratio;
 
+      if (ctx) {
+        const aspectRatio = img.width / img.height;
+
+        // Calculate new dimensions
+        if (maxWidth && maxHeight) {
+          if (img.width > img.height) {
+            canvas.width = maxWidth;
+            canvas.height = maxWidth / aspectRatio;
+          } else {
+            canvas.height = maxHeight;
+            canvas.width = maxHeight * aspectRatio;
+          }
+        }
+
+        // Draw the resized image on the canvas
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        // Convert the canvas to a Blob
-        canvas.toBlob((blob) => {
-          if (blob) {
-            // Create a new File object from the Blob
-            const resizedFile = new File([blob], file.name, {
-              type: file.type,
-            });
-            resolve(resizedFile);
-          } else {
-            reject(new Error("Failed to convert canvas to blob"));
-          }
-        }, file.type);
+        // Convert the canvas to a blob and resolve the promise
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              resolve(blob);
+            } else {
+              reject(new Error("Could not convert canvas to Blob."));
+            }
+          },
+          "image/jpeg",
+          0.8
+        ); // You can adjust the quality as needed
       }
     };
 
-    img.onerror = (error) => reject(error);
+    reader.onerror = (error) => {
+      reject(error);
+    };
+
+    reader.readAsDataURL(file);
   });
+};
+
+const handleImageUpload = async (quill: ReactQuill) => {
+  const input = document.createElement("input");
+  input.setAttribute("type", "file");
+  input.setAttribute("accept", "image/*");
+  input.click();
+
+  input.onchange = async () => {
+    const file = input.files ? input.files[0] : null;
+    if (file) {
+      try {
+        // Resize the image before uploading
+        const resizedImage = await resizeImage(file, 800, 800);
+
+        // Call the upload function and wait for the response
+        const responseLink = await uploadImageToCloudinary(resizedImage);
+
+        if (responseLink) {
+          const range = quill.getEditor().getSelection(true); // Get current cursor position
+          quill.getEditor().insertEmbed(range.index, "image", responseLink); // Insert image URL
+          quill.getEditor().setSelection({
+            index: range.index + 1, // Adjust the cursor position
+            length: 0, // No text selection, just move the cursor
+          }); // Move cursor to the right of the image
+        } else {
+          console.error("Image upload failed");
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+    }
+  };
 };
 
 interface RichtextEditorProps {
@@ -104,8 +117,21 @@ interface RichtextEditorProps {
   label: string;
 }
 
-const CTextEditor = ({ name, label }: RichtextEditorProps) => {
+const CTextEditor: React.FC<RichtextEditorProps> = ({ name, label }) => {
   const { control } = useFormContext();
+
+  const handleQuillModules = useCallback(() => {
+    return {
+      ...modules,
+      toolbar: {
+        ...modules.toolbar,
+        handlers: {
+          image: (quillInstance: ReactQuill) =>
+            handleImageUpload(quillInstance),
+        },
+      },
+    };
+  }, []);
 
   return (
     <div>
@@ -116,7 +142,7 @@ const CTextEditor = ({ name, label }: RichtextEditorProps) => {
         render={({ field }) => (
           <ReactQuill
             {...field}
-            modules={modules} // Pass custom modules including local image insert
+            modules={handleQuillModules()} // Dynamically apply modules with the image handler
             theme="snow"
           />
         )}

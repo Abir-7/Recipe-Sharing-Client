@@ -10,10 +10,9 @@ const RichTextEditor = () => {
   const { mutate: createRecipe, data } = useCreateRecipe();
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
     createRecipe({ recipe: data.recipe });
   };
-  console.log(data);
+
   return (
     <div>
       <CForm onFormSubmit={onSubmit}>

@@ -5,20 +5,22 @@ import CInput from "@/components/common/Form/CInput";
 import { useSetNewPass } from "@/hooks/auth.hook";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react"; // Import Suspense
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
 const ResetPassword = () => {
-  const router = useRouter();
   const searchParams = useSearchParams(); // Access query params
+  const router = useRouter();
+
   const token = searchParams.get("token");
   const email = searchParams.get("email");
 
   const { mutate: changePassword } = useSetNewPass();
 
-  if (!token && !email) {
+  if (!token || !email) {
     router.push("/");
+    return null; // Prevent rendering if token or email is not present
   }
 
   const onFormSubmit = async (data: FieldValues) => {
@@ -28,10 +30,11 @@ const ResetPassword = () => {
       changePassword({ token: token as string, password: data.password });
     }
   };
+
   return (
     <div>
       <div className="container mx-auto">
-        <div className="h-10 bg-black font-semibold text-white text-2xl  flex items-center justify-center mb-10">
+        <div className="h-10 bg-black font-semibold text-white text-2xl flex items-center justify-center mb-10">
           <p>Reset Password</p>
         </div>
         <div className="flex justify-center ">
@@ -43,14 +46,14 @@ const ResetPassword = () => {
                   label="Password"
                   type="password"
                   name="password"
-                ></CInput>
+                />
                 <CInput
                   required={true}
                   type="password"
                   label="Confirm Password"
                   name="cPassword"
-                ></CInput>
-                <CButton text="Change Password"></CButton>
+                />
+                <CButton text="Change Password" />
               </div>
             </CForm>
           </div>
@@ -60,4 +63,11 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+// Wrap the component with Suspense
+const WrappedResetPassword = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <ResetPassword />
+  </Suspense>
+);
+
+export default WrappedResetPassword;

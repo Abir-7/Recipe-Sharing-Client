@@ -1,6 +1,7 @@
-import HeaderTitle from "@/components/common/HeaderTitle/HeaderTitle";
+"use client";
 import React from "react";
-import RichTextEditor from "./RichTextEditor";
+import HeaderTitle from "@/components/common/HeaderTitle/HeaderTitle";
+import RichTextEditor from "./_textedit/RichTextEditor";
 
 const AddRecipe = () => {
   return (

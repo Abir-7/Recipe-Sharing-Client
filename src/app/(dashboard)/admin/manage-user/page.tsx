@@ -12,7 +12,7 @@ const ManageUsers = async () => {
     },
   });
   const { data } = await response.json();
-  console.log(data);
+
   return (
     <div className="max-w-full">
       <HeaderTitle text="Manage User"></HeaderTitle>

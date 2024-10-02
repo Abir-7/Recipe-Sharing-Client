@@ -12,7 +12,7 @@ import { AuthContext } from "@/context/auth.provider";
 import { useUserLogin, useUserRegistration } from "@/hooks/auth.hook";
 import { uploadImageToCloudinary } from "@/utils/uplaodImage";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useContext, useState } from "react";
+import { Suspense, useContext, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { ResetPassModal } from "./ResetPassModal";
@@ -126,4 +126,10 @@ const Login_Signup = () => {
   );
 };
 
-export default Login_Signup;
+const WrappedLoginSignup = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <Login_Signup />
+  </Suspense>
+);
+
+export default WrappedLoginSignup;

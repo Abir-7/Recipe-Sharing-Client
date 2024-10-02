@@ -10,11 +10,9 @@ const TableAction = ({ userId }: { userId: string }) => {
   const { mutate: blockUser } = useBlockUser();
 
   const handleBlockUser = (id: string) => {
-    console.log(id);
     blockUser(id);
   };
   const handleDeleteUser = (id: string) => {
-    console.log(id);
     deleteUser(id);
   };
   return (

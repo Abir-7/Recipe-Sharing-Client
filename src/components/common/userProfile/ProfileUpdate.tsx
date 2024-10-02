@@ -16,7 +16,6 @@ const ProfileUpdate = () => {
   const [isPending, setIsPending] = useState(false);
   const { mutate: updateProfile } = useUserInfoUpdate();
   const onFormSubmit = async (data: FieldValues) => {
-    console.log("gg");
     setIsPending(true);
     const filteredData = {} as FieldValues;
 
@@ -27,7 +26,6 @@ const ProfileUpdate = () => {
     }
 
     if (!!filteredData.photo) {
-      console.log(filteredData.photo, "with photo");
       const photoUrl = await uploadImageToCloudinary(filteredData.photo);
       if (photoUrl) {
         updateProfile({ ...filteredData, photo: photoUrl });
@@ -36,7 +34,7 @@ const ProfileUpdate = () => {
     } else {
       delete filteredData.photo;
       updateProfile({ ...filteredData });
-      console.log(filteredData, "with out photo");
+
       setIsPending(false);
     }
   };

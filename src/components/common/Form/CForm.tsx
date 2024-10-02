@@ -36,7 +36,7 @@ const CForm = ({
 
   const submit = async (data: FieldValues) => {
     await onFormSubmit(data);
-    // methods.reset();
+    methods.reset();
   };
 
   return (

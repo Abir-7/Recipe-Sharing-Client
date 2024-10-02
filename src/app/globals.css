@@ -76,3 +76,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.ql-editor img {
+  display: block;
+  margin: 0 auto;
+  width: 400px;
+}
