@@ -27,6 +27,7 @@ axiosInstance.interceptors.request.use(
 // Add a response interceptor
 axiosInstance.interceptors.response.use(
   function (response) {
+    console.log(response);
     return response;
   },
   function (error) {

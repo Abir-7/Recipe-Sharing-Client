@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFormContext, Controller } from "react-hook-form";
 
 const CImageInput = ({ required = false }: { required?: boolean }) => {
-  const { control, setValue } = useFormContext();
+  const {
+    control,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <div>
@@ -26,6 +31,10 @@ const CImageInput = ({ required = false }: { required?: boolean }) => {
             />
           )}
         />
+        {/* Show error message if photo field is required and not provided */}
+        {errors.photo && (
+          <p className="text-red-500  mt-1">This field is required.</p>
+        )}
       </div>
     </div>
   );

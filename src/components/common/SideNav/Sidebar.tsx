@@ -36,8 +36,8 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
         </div>
         {/* Sidebar Links */}
         {authData?.user?.role === "user" && <UserLink></UserLink>}
-        {authData?.user?.role === "admin" ||
-          (authData?.user?.role === "superAdmin" && <AdminLink />)}
+        {(authData?.user?.role === "admin" ||
+          authData?.user?.role === "superAdmin") && <AdminLink />}
       </div>
 
       {/* Content Section */}

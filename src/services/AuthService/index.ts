@@ -6,13 +6,26 @@ import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 import { ICustomerProfile } from "@/interface/userProfile.interface";
 
+export const createAdmin = async (userData: FieldValues) => {
+  try {
+    const { data } = await axiosInstance.post("/user/create-admin", userData);
+    return data;
+  } catch (error: any) {
+    if (error?.response?.data.message) {
+      throw new Error(error?.response.data.message);
+    } else {
+      throw new Error(error);
+    }
+  }
+};
+
 export const registerUser = async (userData: FieldValues) => {
   try {
     const { data } = await axiosInstance.post("/user/signup", userData);
     return data;
   } catch (error: any) {
-    if (error.response.data.message) {
-      throw new Error(error.response.data.message);
+    if (error?.response.data.message) {
+      throw new Error(error?.response.data.message);
     } else {
       throw new Error(error);
     }
@@ -28,7 +41,7 @@ export const loginUser = async (userData: FieldValues) => {
     }
     return data;
   } catch (error: any) {
-    if (error.response.data.message) {
+    if (error?.response?.data.message) {
       throw new Error(error.response.data.message);
     } else {
       throw new Error(error);
@@ -56,7 +69,7 @@ export const resetPass = async (userEmail: { email: string }) => {
     const { data } = await axiosInstance.post("/auth/reset", userEmail);
     return data;
   } catch (error: any) {
-    if (error.response.data.message) {
+    if (error?.response?.data.message) {
       throw new Error(error.response.data.message);
     } else {
       throw new Error(error);
@@ -72,7 +85,7 @@ export const setNewPass = async (passData: {
     const { data } = await axiosInstance.patch("/user/set-pass", passData);
     return data;
   } catch (error: any) {
-    if (error.response.data.message) {
+    if (error?.response?.data.message) {
       throw new Error(error.response.data.message);
     } else {
       throw new Error(error);
@@ -88,8 +101,8 @@ export const changePassword = async (passData: {
     const { data } = await axiosInstance.patch("/user/update-pass", passData);
     return data;
   } catch (error: any) {
-    if (error.response.data.message) {
-      throw new Error(error.response.data.message);
+    if (error?.response?.data?.message) {
+      throw new Error(error?.response?.data.message);
     } else {
       throw new Error(error);
     }
@@ -101,7 +114,7 @@ export const changeUserInfo = async (userData: Partial<ICustomerProfile>) => {
     const { data } = await axiosInstance.patch("/user/upate-profile", userData);
     return data;
   } catch (error: any) {
-    if (error.response.data.message) {
+    if (error?.response?.data.message) {
       throw new Error(error.response.data.message);
     } else {
       throw new Error(error);

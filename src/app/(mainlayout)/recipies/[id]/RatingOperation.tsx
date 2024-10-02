@@ -180,6 +180,7 @@ const RatingOperation = ({
       )}
       <div className="flex justify-between w-96 mx-auto mt-5 mb-10 ">
         <Button
+          onClick={() => handleRating({ isLiked: true, recipeId })}
           variant={"default"}
           className="flex gap-2 items-center bg-green-500 hover:bg-green-400 duration-200 text-sm"
         >

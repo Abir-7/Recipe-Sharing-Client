@@ -2,18 +2,16 @@ import HeaderTitle from "@/components/common/HeaderTitle/HeaderTitle";
 import { Button } from "@/components/ui/button";
 import envConfig from "@/config/envConfig";
 import { IRecipeWithRating } from "@/interface/recipe.interface";
-import { cookies } from "next/headers";
+
 import Link from "next/link";
 import React from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
+import { cookies } from "next/headers";
 const Recipies = async () => {
-  const token = cookies().get("accessToken")?.value;
+  // const token = cookies().get("accessToken")?.value;
   const response = await fetch(`${envConfig.baseApi}/recipe`, {
-    headers: {
-      Authorization: `${token}`,
-    },
-    next: { tags: ["recepe"] },
+    cache: "no-store",
   });
   const { data } = await response.json();
   console.log(data, "ggg");

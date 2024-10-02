@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { blockUser, deleteUser } from "@/services/AdminService";
+import { blockUser, deleteUser, updateAdmin } from "@/services/AdminService";
 import { useMutation } from "@tanstack/react-query";
+import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
 export const useBlockUser = () => {
@@ -23,6 +24,19 @@ export const useDeleteUser = () => {
     mutationFn: async (id) => await deleteUser(id),
     onSuccess: () => {
       toast.success("User is deleted successfuly");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useUpdateAdmin = () => {
+  return useMutation<any, Error, { userData: FieldValues; userId: string }>({
+    mutationKey: ["UPDATE_ADMIN"],
+    mutationFn: async (data) => await updateAdmin(data),
+    onSuccess: () => {
+      toast.success("Admin is updated successfuly");
     },
     onError: (error) => {
       toast.error(error.message);
