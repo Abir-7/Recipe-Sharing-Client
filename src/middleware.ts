@@ -10,13 +10,27 @@ const roleBasedRoutes = {
   admin: [/^\/admin/],
   user: [/^\/user/],
 };
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  // if (pathname === "/recipies") {
-  //   console.log(pathname);
-  //   return NextResponse.next();
-  // }
   const user = await getCurrentUser();
+
+  console.log(pathname, "gggg");
+
+  // Allow access to /recipies for all users
+  if (pathname === "/recipies") {
+    return NextResponse.next();
+  }
+
+  // Restrict access to /recipies/:id for unauthenticated users
+  if (pathname.startsWith("/recipies/") && !user) {
+    return NextResponse.redirect(
+      new URL(`/login-signup?redirects=${pathname}`, request.url)
+    );
+  }
+  if (pathname.startsWith("/recipies/") && user) {
+    return NextResponse.next();
+  }
 
   if (!user) {
     if (AuthRoutes.includes(pathname)) {
@@ -47,5 +61,6 @@ export const config = {
     "/admin",
     "/user",
     "/user/manage-profile",
+    "/recipies/:page*",
   ],
 };

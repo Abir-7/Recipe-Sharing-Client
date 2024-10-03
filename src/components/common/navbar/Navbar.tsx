@@ -14,6 +14,8 @@ export const Navbar = () => {
   const navLink = [
     { name: "Home", url: "/" },
     { name: "Recipies", url: "/recipies" },
+    { name: "About Us", url: "/about-us" },
+    { name: "Contact Us", url: "/contact-us" },
   ];
   const authLink = [
     {

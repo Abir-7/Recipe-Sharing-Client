@@ -43,6 +43,7 @@ export interface IRecipe {
   comments: IComment[];
   isPublished: boolean;
   isDeleted: boolean;
+  isPremium: boolean;
 }
 
 export interface IRecipeResponse {

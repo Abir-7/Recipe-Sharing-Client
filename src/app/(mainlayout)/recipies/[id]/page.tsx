@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import React from "react";
 import RatingOperation from "./RatingOperation";
 import UserFollow from "./UserFollow";
+import Fiilter from "./Fiilter";
 
 interface RecipeDetailsProps {
   params: {
@@ -24,12 +25,13 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = async ({ params }) => {
   const { data }: { data: IRecipeResponse } = await response.json();
 
   return (
-    <div className=" container mx-auto h-full">
+    <div className="container mx-auto h-full relative p-2">
+      <Fiilter isPremium={data?.recipe?.isPremium}></Fiilter>
       <div key={data?._id}>
-        <div className="relative w-full h-full">
+        <div className="relative w-full h-full ">
           <div
             dangerouslySetInnerHTML={{
-              __html: data?.recipe && (data.recipe.recipe as string),
+              __html: data?.recipe ? (data?.recipe?.recipe as string) : "",
             }}
             className=" mt-5 mx-2 flex flex-col items-center"
           />
@@ -44,9 +46,9 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = async ({ params }) => {
         </div>
 
         <RatingOperation
-          comments={data?.comments}
-          totalDislike={data?.totalDislikes}
-          totalLikes={data?.totalLikes}
+          comments={data?.recipe?.comments}
+          totalDislike={data?.recipe?.totalDislikes}
+          totalLikes={data?.recipe?.totalLikes}
           recipeId={data?._id}
         ></RatingOperation>
       </div>
