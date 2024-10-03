@@ -59,3 +59,35 @@ export const deleteMyrecipe = async (rid: { rId: string }) => {
     }
   }
 };
+
+export const deleteAdminrecipe = async (rid: { rId: string }) => {
+  try {
+    const { data } = await axiosInstance.patch(
+      `/recipe/admin-recipe-delete/${rid.rId}`
+    );
+    revalidateTag("recepe");
+    return data;
+  } catch (error: any) {
+    if (error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error);
+    }
+  }
+};
+
+export const unpublishAdminrecipe = async (rid: { rId: string }) => {
+  try {
+    const { data } = await axiosInstance.patch(
+      `/recipe/admin-recipe-publish/${rid.rId}`
+    );
+    revalidateTag("recepe");
+    return data;
+  } catch (error: any) {
+    if (error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error);
+    }
+  }
+};

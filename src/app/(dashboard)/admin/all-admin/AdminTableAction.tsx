@@ -31,7 +31,6 @@ const AdminTableAction = ({ userId }: { userId: string }) => {
 
   const [isPending, setIsPending] = useState(false);
   const onFormSubmit = async (data: FieldValues) => {
-    console.log(data);
     setIsPending(true);
     const filteredData = {} as FieldValues;
 

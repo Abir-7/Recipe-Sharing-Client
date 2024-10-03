@@ -17,7 +17,6 @@ export const useCreatePayment = () => {
     mutationKey: ["CREATE_PAYMENT"],
     mutationFn: async (price) => await createPayment(price),
     onSuccess: (res: any) => {
-      console.log(res);
       toast.success("Redirecting to payment page...");
       const payLink = res?.data?.payLink;
 

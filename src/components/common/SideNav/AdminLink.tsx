@@ -10,10 +10,14 @@ const AdminLink = () => {
   const toggleServices2 = () => {
     setIsServicesOpen2(!isServicesOpen2);
   };
+  const toggleServices3 = () => {
+    setIsServicesOpen3(!isServicesOpen3);
+  };
 
   const pathname = usePathname();
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isServicesOpen2, setIsServicesOpen2] = useState(false);
+  const [isServicesOpen3, setIsServicesOpen3] = useState(false);
   return (
     <nav className="flex flex-col p-4 space-y-4">
       <Link
@@ -58,6 +62,31 @@ const AdminLink = () => {
               }
             >
               All Admin
+            </Link>
+          </div>
+        )}
+      </div>
+      <div className="w-full grid gap-2">
+        <p
+          className={
+            "w-full px-4 py-1 font-semibold rounded-xl border border-yellow-400"
+          }
+          onClick={toggleServices3}
+        >
+          Manage User Recipe
+          <span>{isServicesOpen2 ? "-" : "+"}</span>
+        </p>
+        {isServicesOpen3 && (
+          <div className="pl-4 grid gap-4 w-full">
+            <Link
+              href="/admin/manage-user-recipe"
+              className={
+                pathname == "/admin/manage-user-recipe"
+                  ? "bg-yellow-400 px-4 text-gray-950 font-semibold py-1 rounded-xl border-2 border-white"
+                  : " w-full px-4 py-1 font-semibold rounded-xl border border-yellow-400"
+              }
+            >
+              RecipeManage
             </Link>
           </div>
         )}

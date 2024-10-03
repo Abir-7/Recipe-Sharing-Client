@@ -45,7 +45,6 @@ const ProfileUpdate = () => {
   };
 
   const handleSubcribe = (price: number) => {
-    console.log(price);
     createPayment({ price });
   };
 

@@ -24,13 +24,12 @@ const RatingOperation = ({
   totalDislike: number;
 }) => {
   const userData = useContext(AuthContext);
-  console.log(userData);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: addRating } = useRatingOperation();
 
   const handleRating = (data: Record<string, unknown>) => {
-    console.log(data);
     addRating(data);
   };
 

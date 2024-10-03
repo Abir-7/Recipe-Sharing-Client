@@ -14,7 +14,6 @@ import { toast } from "sonner";
 const AddAdmin = () => {
   const { mutate: createAdmin } = useCreateAdmin();
   const onFormSubmit = async (data: FieldValues) => {
-    console.log(data);
     const { userName, email, password, photo, address, phone } = data;
 
     if (photo) {
@@ -27,7 +26,7 @@ const AddAdmin = () => {
           password: password,
           admin: { userName, email, address, phone, photo: uploadedImageUrl },
         };
-        console.log(adminData, "ffff");
+
         createAdmin(adminData);
       }
     }

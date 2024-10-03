@@ -7,7 +7,6 @@ import React from "react";
 const DeleteModal = ({ recipeId }: { recipeId: string }) => {
   const { mutate: deleteRecipe } = useDeleteRecipe();
   const handleDelete = (id: string) => {
-    console.log(id);
     deleteRecipe({ rId: id });
   };
   return (

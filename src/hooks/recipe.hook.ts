@@ -2,9 +2,11 @@
 
 import {
   createRecipe,
+  deleteAdminrecipe,
   deleteMyrecipe,
   getMyRecipe,
   ratingOperation,
+  unpublishAdminrecipe,
 } from "@/services/RecepeService";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -48,6 +50,32 @@ export const useDeleteRecipe = () => {
     mutationFn: async (data) => await deleteMyrecipe(data),
     onSuccess: () => {
       toast.success("Recipe Deleted");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useAdminDeleteRecipe = () => {
+  return useMutation<any, Error, { rId: string }>({
+    mutationKey: ["ADMIN_DELETE_RECIPE"],
+    mutationFn: async (data) => await deleteAdminrecipe(data),
+    onSuccess: () => {
+      toast.success("Recipe Deleted");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useAdminUnpublishRecipe = () => {
+  return useMutation<any, Error, { rId: string }>({
+    mutationKey: ["UNPUBLISH_RECIPE"],
+    mutationFn: async (data) => await unpublishAdminrecipe(data),
+    onSuccess: () => {
+      toast.success("Publish status changed.");
     },
     onError: (error) => {
       toast.error(error.message);

@@ -22,9 +22,7 @@ const MyRecipe = async () => {
     next: { tags: ["recepe"] },
   });
   const { data } = await response.json();
-  console.log(data);
 
-  console.log(data, "jjjj");
   return (
     <>
       <HeaderTitle text="My Recipe"></HeaderTitle>

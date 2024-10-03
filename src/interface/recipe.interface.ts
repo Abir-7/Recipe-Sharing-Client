@@ -41,15 +41,13 @@ export interface IRecipe {
   totalDislikes: number;
   averageRating: number;
   comments: IComment[];
+  isPublished: boolean;
+  isDeleted: boolean;
 }
 
 export interface IRecipeResponse {
   _id: string;
   customer: IRecipeCustomer;
-  totalLikes: number;
-  totalDislikes: number;
-  averageRating: number;
-  comments: IComment[];
   recipe: IRecipe;
   isFollower?: boolean;
 }

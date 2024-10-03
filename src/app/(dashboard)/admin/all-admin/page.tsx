@@ -14,7 +14,7 @@ const page = async () => {
     next: { tags: ["admin"] },
   });
   const { data }: { data: IAdminProfile[] } = await response.json();
-  console.log(data);
+
   return (
     <div className="w-[100%]">
       <HeaderTitle text="All Admin"></HeaderTitle>
