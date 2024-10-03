@@ -1,23 +1,29 @@
-// components/UserProfile.tsx
+"use client";
 import React from "react";
 import Image from "next/image";
 import { ICustomerProfile } from "@/interface/userProfile.interface";
+import { useRouter } from "next/navigation";
 
 const UserProfile = ({ userData }: { userData: ICustomerProfile }) => {
+  const router = useRouter();
+  if (!userData) {
+    router.push("/login-signup");
+  }
+
   return (
     <div className="max-w-md shadow mx-auto rounded-xl overflow-hidden mt-10">
       <div className="sm:flex sm:items-center px-6 py-4">
         <Image
           className="block mx-auto object-cover h-24 rounded-full sm:mx-0 sm:flex-shrink-0"
-          src={userData.photo}
+          src={userData?.photo}
           alt="User profile picture"
           width={96}
           height={96}
         />
         <div className="mt-4 text-center sm:mt-0 sm:ml-4 sm:text-left">
-          <p className="text-xl leading-tight">{userData.userName}</p>
+          <p className="text-xl leading-tight">{userData?.userName}</p>
           <p className="text-sm leading-tight text-gray-600">
-            {userData.email}
+            {userData?.email}
           </p>
           <div className="mt-1  text-sm">
             {userData?.bio && userData?.bio?.length > 26

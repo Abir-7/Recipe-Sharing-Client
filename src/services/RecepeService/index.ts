@@ -43,3 +43,19 @@ export const ratingOperation = async (ratingData: Record<string, unknown>) => {
     }
   }
 };
+
+export const deleteMyrecipe = async (rid: { rId: string }) => {
+  try {
+    const { data } = await axiosInstance.patch(
+      `/recipe/my-recipe-delete/${rid.rId}`
+    );
+    revalidateTag("recepe");
+    return data;
+  } catch (error: any) {
+    if (error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error);
+    }
+  }
+};

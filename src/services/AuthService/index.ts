@@ -57,7 +57,7 @@ export const getCurrentUser = async () => {
   if (token) {
     decode = await jwtDecode(token as string);
   }
-
+  console.log(decode);
   return await decode;
 };
 export const logOutUser = async () => {

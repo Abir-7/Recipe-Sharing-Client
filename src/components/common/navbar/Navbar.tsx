@@ -26,16 +26,6 @@ export const Navbar = () => {
           : "user"
       }/dashboard`,
     },
-    {
-      name: "Edit Profile",
-      url: `//${
-        user?.role == "admin"
-          ? "admin"
-          : user?.role == "superAdmin"
-          ? "admin"
-          : "user"
-      }/edit-profile`,
-    },
   ];
 
   return (

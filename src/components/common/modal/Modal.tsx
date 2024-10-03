@@ -11,7 +11,7 @@ import { ReactNode } from "react";
 
 interface ModalProps {
   title: string;
-  description: string;
+  description?: string;
   children?: React.ReactNode; // Optional children prop
   btnText?: string;
   btnType?:

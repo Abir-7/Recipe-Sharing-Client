@@ -12,7 +12,10 @@ const roleBasedRoutes = {
 };
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
+  // if (pathname === "/recipies") {
+  //   console.log(pathname);
+  //   return NextResponse.next();
+  // }
   const user = await getCurrentUser();
 
   if (!user) {
@@ -43,5 +46,6 @@ export const config = {
     "/user/:page*",
     "/admin",
     "/user",
+    "/user/manage-profile",
   ],
 };

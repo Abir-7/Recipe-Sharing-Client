@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CForm from "../Form/CForm";
 import { FieldValues } from "react-hook-form";
 import CInput from "../Form/CInput";
@@ -11,10 +11,15 @@ import { useUserInfoUpdate } from "@/hooks/auth.hook";
 import { uploadImageToCloudinary } from "@/utils/uplaodImage";
 import { Button } from "@/components/ui/button";
 import ChangePassModal from "./ChangePassModal";
+import Modal from "../modal/Modal";
+import { useCreatePayment } from "@/hooks/payment.hook";
+import { AuthContext } from "@/context/auth.provider";
 
 const ProfileUpdate = () => {
+  const authData = useContext(AuthContext);
   const [isPending, setIsPending] = useState(false);
   const { mutate: updateProfile } = useUserInfoUpdate();
+  const { mutate: createPayment } = useCreatePayment();
   const onFormSubmit = async (data: FieldValues) => {
     setIsPending(true);
     const filteredData = {} as FieldValues;
@@ -38,12 +43,42 @@ const ProfileUpdate = () => {
       setIsPending(false);
     }
   };
+
+  const handleSubcribe = (price: number) => {
+    console.log(price);
+    createPayment({ price });
+  };
+
   return (
     <div className="p-6">
       <div className="container mx-auto max-w-2xl bg-white p-8 rounded-lg "></div>
       <div className="flex justify-between">
         <h1 className="text-2xl font-semibold mb-6 ">Update Profile</h1>
-        <ChangePassModal></ChangePassModal>
+        <div className="flex items-center gap-2">
+          {authData?.user?.hasValidSubscription ? (
+            <div className="bg-yellow-400 px-5 py-2 font-bold rounded-full">
+              Premium User
+            </div>
+          ) : (
+            <Modal
+              title="2 Month Subcription"
+              btnType={"default"}
+              btnText="Buy Subcription"
+              description="You will get access to premium recipe."
+            >
+              <div
+                onClick={() => handleSubcribe(400)}
+                className="w-2/3 active:scale-90 hover:scale-110 duration-150 py-4 rounded-md mx-auto text-center bg-gray-950 grid"
+              >
+                <span className="text-yellow-400 font-bold">400 tk</span>
+                <span className="text-green-500 text-2xl font-bold">
+                  Subcribe Now
+                </span>
+              </div>
+            </Modal>
+          )}
+          <ChangePassModal></ChangePassModal>
+        </div>
       </div>
       <div className="w-full   ">
         <CForm onFormSubmit={onFormSubmit}>

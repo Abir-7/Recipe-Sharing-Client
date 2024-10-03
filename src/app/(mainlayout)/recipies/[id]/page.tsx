@@ -1,8 +1,9 @@
 import envConfig from "@/config/envConfig";
-import { IRecipeWithRating } from "@/interface/recipe.interface";
+import { IRecipeResponse } from "@/interface/recipe.interface";
 import { cookies } from "next/headers";
 import React from "react";
 import RatingOperation from "./RatingOperation";
+import UserFollow from "./UserFollow";
 
 interface RecipeDetailsProps {
   params: {
@@ -20,30 +21,35 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = async ({ params }) => {
     },
     next: { tags: ["recepe_details"] },
   });
-  const { data }: { data: IRecipeWithRating[] } = await response.json();
-  console.log(data);
+  const { data }: { data: IRecipeResponse } = await response.json();
+
   return (
     <div className=" container mx-auto h-full">
-      {data?.map((item) => {
-        return (
-          <div key={item._id}>
-            <div className="relative w-full h-full">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: item?.recipe && (item?.recipe as string),
-                }}
-                className="h-full mt-5 mx-2 flex flex-col items-center"
-              />
-            </div>
-            <RatingOperation
-              comments={item?.comments}
-              totalDislike={item.totalDislikes}
-              totalLikes={item.totalLikes}
-              recipeId={item?._id}
-            ></RatingOperation>
+      <div key={data?._id}>
+        <div className="relative w-full h-full">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: data?.recipe && (data.recipe.recipe as string),
+            }}
+            className=" mt-5 mx-2 flex flex-col items-center"
+          />
+          <div className=" pb-5 flex justify-center gap-5">
+            <span> Posted By: {data?.customer?.email}</span>{" "}
+            <UserFollow
+              userEmail={data?.customer?.email}
+              isFollower={data?.isFollower ? data?.isFollower : false}
+              userID={data?.customer?._id}
+            ></UserFollow>
           </div>
-        );
-      })}
+        </div>
+
+        <RatingOperation
+          comments={data?.comments}
+          totalDislike={data?.totalDislikes}
+          totalLikes={data?.totalLikes}
+          recipeId={data?._id}
+        ></RatingOperation>
+      </div>
     </div>
   );
 };

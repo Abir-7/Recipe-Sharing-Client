@@ -1,4 +1,4 @@
-interface ICustomer {
+interface IRecipeCustomer {
   _id: string;
   userName: string;
   email: string;
@@ -8,25 +8,48 @@ interface ICustomer {
   bio: string;
 }
 
+interface IComment {
+  userEmail: string;
+  comment: string[];
+}
+
+interface IRating {
+  _id: string;
+  recipeId: string;
+  customerId: string;
+  rating: number;
+  comment: string[];
+  isLiked: boolean;
+  isDisliked: boolean;
+  __v: number;
+}
+
 export interface IRecipe {
+  _id: string;
+  recipe: string;
+  customer: IRecipeCustomer;
+  upVote: number;
+  downVote: number;
   rating: {
     avgRating: number;
     totalCount: number;
   };
-  _id: string;
-  recipe: string;
-  customer: ICustomer;
-  upVote: number;
-  downVote: number;
   __v: number;
-}
-
-export interface IRecipeWithRating {
-  _id: string;
-  recipe: string; // Assuming the HTML content is stored as a string
+  ratings: IRating[];
+  ratingCustomers: IRecipeCustomer[];
   totalLikes: number;
   totalDislikes: number;
-  customer: ICustomer; // Reference to the customer who posted the recipe
-  comments: { userEmail: string; comment: string[] }[]; // Assuming the comments array is empty for now; can be further defined if comments have a structure
   averageRating: number;
+  comments: IComment[];
+}
+
+export interface IRecipeResponse {
+  _id: string;
+  customer: IRecipeCustomer;
+  totalLikes: number;
+  totalDislikes: number;
+  averageRating: number;
+  comments: IComment[];
+  recipe: IRecipe;
+  isFollower?: boolean;
 }

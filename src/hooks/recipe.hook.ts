@@ -2,6 +2,7 @@
 
 import {
   createRecipe,
+  deleteMyrecipe,
   getMyRecipe,
   ratingOperation,
 } from "@/services/RecepeService";
@@ -34,6 +35,19 @@ export const useRatingOperation = () => {
     mutationFn: async (data) => await ratingOperation(data),
     onSuccess: () => {
       toast.success("Feedback added");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useDeleteRecipe = () => {
+  return useMutation<any, Error, { rId: string }>({
+    mutationKey: ["DELETE_RECIPE"],
+    mutationFn: async (data) => await deleteMyrecipe(data),
+    onSuccess: () => {
+      toast.success("Recipe Deleted");
     },
     onError: (error) => {
       toast.error(error.message);

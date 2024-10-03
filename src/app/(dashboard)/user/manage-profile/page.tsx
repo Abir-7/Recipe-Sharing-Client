@@ -7,7 +7,7 @@ import React from "react";
 
 const page = async () => {
   const token = cookies().get("accessToken")?.value;
-  const response = await fetch(`${envConfig.baseApi}/user/me`, {
+  const response = await fetch(`${envConfig?.baseApi}/user/me`, {
     headers: {
       Authorization: `${token}`,
     },

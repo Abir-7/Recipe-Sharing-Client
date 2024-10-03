@@ -1,13 +1,13 @@
 import HeaderTitle from "@/components/common/HeaderTitle/HeaderTitle";
 import { Button } from "@/components/ui/button";
 import envConfig from "@/config/envConfig";
-import { IRecipeWithRating } from "@/interface/recipe.interface";
 
 import Link from "next/link";
 import React from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
-import { cookies } from "next/headers";
+import { IRecipeResponse } from "@/interface/recipe.interface";
+
 const Recipies = async () => {
   // const token = cookies().get("accessToken")?.value;
   const response = await fetch(`${envConfig.baseApi}/recipe`, {
@@ -21,7 +21,7 @@ const Recipies = async () => {
         <HeaderTitle text="All Recipe"></HeaderTitle>
       </div>
       <div className="container mx-auto mt-5">
-        {(data as IRecipeWithRating[])?.map((item, i) => (
+        {(data as IRecipeResponse[])?.map((item, i) => (
           // eslint-disable-next-line react/jsx-key
           <div
             key={i}
@@ -30,7 +30,8 @@ const Recipies = async () => {
             <div className="">
               <div
                 dangerouslySetInnerHTML={{
-                  __html: (item?.recipe as string).slice(0, 400) + "....",
+                  __html:
+                    (item?.recipe.recipe as string).slice(0, 400) + "....",
                 }}
                 className="h-full"
               />{" "}
@@ -39,7 +40,7 @@ const Recipies = async () => {
               </Button>
               <div className="text-sm mt-1">
                 <span className="font-semibold">posted by:</span>{" "}
-                <span>{item?.customer?.userName}</span>
+                <span>{item?.customer.email}</span>
               </div>
               <div className="flex justify-between ">
                 <div className="flex gap-2 items-center  text-sm">
