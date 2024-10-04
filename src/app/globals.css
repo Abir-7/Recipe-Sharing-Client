@@ -82,3 +82,20 @@ body {
   margin: 0 auto;
   width: 400px;
 }
+
+.jodit-wysiwyg {
+  padding-left: 10px;
+}
+
+ul {
+  list-style: inside;
+}
+
+ol {
+  list-style: inside;
+  list-style-type: number;
+}
+
+td {
+  border: solid 1px;
+}

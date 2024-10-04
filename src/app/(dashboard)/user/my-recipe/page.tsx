@@ -1,105 +1,185 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
+"use client";
+import React, { useState } from "react";
+import { useSingleUserRecipe } from "@/hooks/recipe.hook";
 import HeaderTitle from "@/components/common/HeaderTitle/HeaderTitle";
-
 import { Button } from "@/components/ui/button";
-import envConfig from "@/config/envConfig";
-import { IRecipeResponse } from "@/interface/recipe.interface";
+import DeleteModal from "./DeleteModal";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
-import { cookies } from "next/headers";
 import Link from "next/link";
+import { IRecipeResponse } from "@/interface/recipe.interface";
+import Image from "next/image";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import useDebounce from "@/utils/useDebounce";
 
-import React from "react";
-import DeleteModal from "./DeleteModal";
+const MyRecipe = () => {
+  const [search, setSearch] = useState<string>("");
+  const [sort, setSort] = useState<string>("averageRating");
+  const [category, setCategory] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize] = useState<number>(1); // Set the number of items per page
 
-const MyRecipe = async () => {
-  const token = cookies().get("accessToken")?.value;
-  const response = await fetch(`${envConfig.baseApi}/recipe/my-recipe`, {
-    headers: {
-      Authorization: `${token}`,
-    },
-    next: { tags: ["recepe"] },
-  });
-  const { data } = await response.json();
+  const debouncedSearch = useDebounce(search, 500);
+
+  const { data, isLoading } = useSingleUserRecipe(
+    debouncedSearch,
+    sort,
+    category,
+    currentPage,
+    pageSize
+  );
+
+  const total = data?.data?.total || 0;
+  const totalPages = Math.ceil(total / pageSize);
+
+  // Handle page changes
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
-      <HeaderTitle text="My Recipe"></HeaderTitle>
-      {data.length > 0 ? (
-        <div className="p-2">
-          {(data as IRecipeResponse[])?.map((item, i) => (
-            // eslint-disable-next-line react/jsx-key
-            <div
-              key={i}
-              className=" w-64 border  p-4  shadow-md rounded-lg flex flex-col items-center justify-center"
-            >
-              <div className="">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html:
-                      (item?.recipe.recipe as string).slice(0, 400) + "....",
-                  }}
-                  className="h-full"
-                />{" "}
-                <Button className="w-full bg-yellow-400 text-gray-950 font-medium hover:text-white hover:bg-gray-950">
-                  <Link href={`/recipies/${item?._id}`}> View</Link>
-                </Button>
-                <DeleteModal recipeId={item?._id}></DeleteModal>
-                <div className="text-sm mt-1">
-                  <span className="font-semibold">posted by:</span>{" "}
-                  <span>{item?.customer.email}</span>
-                </div>
-                <div className="flex justify-between ">
-                  <div className="flex gap-2 items-center  text-sm">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="size-4"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z"
-                      />
-                    </svg>
-                    {item?.totalLikes}
-                  </div>
-                  <Rating
-                    value={item?.averageRating}
-                    readOnly
-                    style={{ maxWidth: 70 }}
-                  ></Rating>
-                  <div className="flex gap-2 items-center text-sm">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="size-4"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M7.498 15.25H4.372c-1.026 0-1.945-.694-2.054-1.715a12.137 12.137 0 0 1-.068-1.285c0-2.848.992-5.464 2.649-7.521C5.287 4.247 5.886 4 6.504 4h4.016a4.5 4.5 0 0 1 1.423.23l3.114 1.04a4.5 4.5 0 0 0 1.423.23h1.294M7.498 15.25c.618 0 .991.724.725 1.282A7.471 7.471 0 0 0 7.5 19.75 2.25 2.25 0 0 0 9.75 22a.75.75 0 0 0 .75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 0 0 2.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384m-10.253 1.5H9.7m8.075-9.75c.01.05.027.1.05.148.593 1.2.925 2.55.925 3.977 0 1.487-.36 2.89-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398-.306.774-1.086 1.227-1.918 1.227h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 0 0 .303-.54"
-                      />
-                    </svg>
-                    {item.totalDislikes}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+      <HeaderTitle text="My Recipe" />
+
+      {/* Search, Sort, and Filter Controls */}
+      <div className="flex justify-between items-center p-4">
+        <Input
+          type="text"
+          className="border p-2 rounded-lg w-full max-w-md"
+          placeholder="Search recipe"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+        <Select onValueChange={(value) => setSort(value)}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Sort" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="-averageRating">Sort by Rating</SelectItem>
+            <SelectItem value="-totalLikes">Sort by Likes</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select
+          onValueChange={(value) => setCategory(value === "all" ? "" : value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Categories" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Category</SelectItem>
+            {data?.data?.allCategory.map((item: string) => (
+              <SelectItem key={item} value={item}>
+                {item}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {isLoading ? (
+        <>
+          <div className="flex h-[70vh] justify-center mt-10 text-2xl">
+            <p>Loading....</p>
+          </div>
+        </>
       ) : (
-        <div className="p-2 text-center text-xl font-bold">
-          You do not added any recipe
+        <div className="min-h-[70vh]">
+          <div className="p-2  grid justify-items-center grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+            {data?.data?.recipe?.length > 0 ? (
+              <>
+                {" "}
+                {data?.data?.recipe.map((item: IRecipeResponse, i: number) => (
+                  <div
+                    key={i}
+                    className="w-64  border p-4 shadow-md rounded-lg flex flex-col items-center"
+                  >
+                    <div>
+                      <div className="w-full h-56 mb-2">
+                        <Image
+                          className="w-full h-full object-cover"
+                          height={400}
+                          width={400}
+                          src={item?.recipe?.photo}
+                          alt={item?.recipe?.title}
+                        />
+                      </div>
+                      <div className="min-h-20">
+                        <p className="text-xl font-semibold">
+                          {item?.recipe?.title}
+                        </p>
+                        <p className="font-semibold">
+                          <span className="text-green-500">Category:</span>{" "}
+                          {item?.recipe?.category}
+                        </p>
+                      </div>
+                      <Button className="w-full bg-yellow-400 text-gray-950 font-medium hover:text-white hover:bg-gray-950">
+                        <Link href={`/recipies/${item?._id}`}>View</Link>
+                      </Button>
+                      <DeleteModal recipeId={item?._id} />
+                      <div className="text-sm mt-1">
+                        <span className="font-semibold">Posted by:</span>{" "}
+                        <span>{item?.customer.email}</span>
+                      </div>
+                      <div className="flex justify-between mt-1">
+                        <div className="flex gap-2 items-center text-sm">
+                          {/* Add your SVG content here */}
+                          {item?.recipe?.totalLikes}
+                        </div>
+                        <Rating
+                          value={item?.recipe?.averageRating}
+                          readOnly
+                          style={{ maxWidth: 70 }}
+                        />
+                        <div className="flex gap-2 items-center text-sm">
+                          {/* Add your SVG content here */}
+                          {item?.recipe?.totalDislikes}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                {" "}
+                <div className="p-2 text-center text-xl font-bold">
+                  You have not added any recipe
+                </div>
+              </>
+            )}
+          </div>
         </div>
       )}
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-6 ">
+        <Button
+          disabled={currentPage === 1}
+          onClick={() => handlePageChange(currentPage - 1)}
+          className="mr-4"
+        >
+          Previous
+        </Button>
+        <p className="text-lg font-bold">
+          Page {currentPage} of {totalPages}
+        </p>
+        <Button
+          disabled={currentPage === totalPages}
+          onClick={() => handlePageChange(currentPage + 1)}
+          className="ml-4"
+        >
+          Next
+        </Button>
+      </div>
     </>
   );
 };

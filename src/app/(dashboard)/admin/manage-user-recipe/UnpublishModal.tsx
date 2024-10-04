@@ -12,7 +12,6 @@ const UnpublishModal = ({
   recipeId: string;
   isPublished: boolean;
 }) => {
-  console.log(isPublished, "pub");
   const { mutate: deleteRecipe } = useAdminUnpublishRecipe();
   const handleUnpublish = (id: string) => {
     deleteRecipe({ rId: id });

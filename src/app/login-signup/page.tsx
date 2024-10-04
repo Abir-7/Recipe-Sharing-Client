@@ -115,7 +115,7 @@ const Login_Signup = () => {
                     label="Password"
                   ></CInput>
                   <CImageInput></CImageInput>
-                  <CButton cssClass="" text="Login"></CButton>
+                  <CButton cssClass="" text="Signup"></CButton>
                 </div>
               </CForm>
             </CardContent>

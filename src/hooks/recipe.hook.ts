@@ -4,15 +4,17 @@ import {
   createRecipe,
   deleteAdminrecipe,
   deleteMyrecipe,
-  getMyRecipe,
+  getAllRecipe,
+  getSingleUserRecipe,
   ratingOperation,
   unpublishAdminrecipe,
 } from "@/services/RecepeService";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
 export const useCreateRecipe = () => {
-  return useMutation<any, Error, { recipe: string }>({
+  return useMutation<any, Error, FieldValues>({
     mutationKey: ["CREATE_RECIPE"],
     mutationFn: async (re) => await createRecipe(re),
     onSuccess: () => {
@@ -21,13 +23,6 @@ export const useCreateRecipe = () => {
     onError: (error) => {
       toast.error(error.message);
     },
-  });
-};
-
-export const useGetMyRecipe = () => {
-  return useQuery({
-    queryKey: ["CREATE_RECIPE"],
-    queryFn: async () => await getMyRecipe(),
   });
 };
 
@@ -79,6 +74,39 @@ export const useAdminUnpublishRecipe = () => {
     },
     onError: (error) => {
       toast.error(error.message);
+    },
+  });
+};
+
+export const useSingleUserRecipe = (
+  search: string,
+  sort: string,
+  category: string,
+  currentPage: number,
+  pageSize: number
+) => {
+  return useQuery({
+    queryKey: ["USER_RECIPE", search, sort, category, currentPage, pageSize],
+    queryFn: async () => {
+      return await getSingleUserRecipe(
+        search,
+        sort,
+        category,
+        currentPage,
+        pageSize
+      );
+    },
+  });
+};
+export const useGetAllRecipe = (
+  search: string,
+  sort: string,
+  category: string
+) => {
+  return useQuery({
+    queryKey: ["All_RECIPE", search, sort, category],
+    queryFn: async () => {
+      return await getAllRecipe(search, sort, category);
     },
   });
 };

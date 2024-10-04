@@ -9,6 +9,7 @@ import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import DeleteAdminModal from "./DeleteAdminModal";
 import UnpublishModal from "./UnpublishModal";
+import Image from "next/image";
 const AdminUserRecipe = async () => {
   const token = cookies().get("accessToken")?.value;
   const response = await fetch(`${envConfig.baseApi}/recipe/admin-all-recipe`, {
@@ -30,13 +31,22 @@ const AdminUserRecipe = async () => {
             className=" w-64 border  p-4  shadow-md rounded-lg flex flex-col items-center justify-center"
           >
             <div className="">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html:
-                    (item?.recipe?.recipe as string).slice(0, 400) + "....",
-                }}
-                className=""
-              />{" "}
+              <div className="w-full h-56 mb-2">
+                <Image
+                  className="w-full h-full object-cover"
+                  height={400}
+                  width={400}
+                  src={item?.recipe?.photo}
+                  alt=""
+                ></Image>
+              </div>
+              <div className="min-h-20">
+                <p className="text-xl font-semibold "> {item?.recipe?.title}</p>
+                <p className=" font-semibold ">
+                  <span className="text-green-500"> Category:</span>{" "}
+                  {item?.recipe?.category}
+                </p>
+              </div>
               <Button className="w-full bg-yellow-400 text-gray-950 font-medium hover:text-white hover:bg-gray-950">
                 <Link href={`/recipies/${item?._id}`}> View</Link>
               </Button>

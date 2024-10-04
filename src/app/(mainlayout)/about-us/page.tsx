@@ -1,6 +1,6 @@
 import React from "react";
 
-const AboutUs = () => {
+const Page = () => {
   return (
     <div className="container mx-auto p-8">
       <h1 className="text-4xl font-bold mb-6 text-center">About Us</h1>
@@ -31,4 +31,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default Page;

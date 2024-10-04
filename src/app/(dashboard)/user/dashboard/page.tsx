@@ -13,7 +13,7 @@ const UserDashboard = async () => {
     next: { tags: ["recepe_details"] },
   });
   const { data }: { data: IUserDashboardData } = await response.json();
-  console.log(JSON.stringify(data), "gg");
+
   return (
     <div>
       <HeaderTitle text="User Dashboard"></HeaderTitle>

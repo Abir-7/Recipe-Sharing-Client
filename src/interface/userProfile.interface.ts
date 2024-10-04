@@ -18,6 +18,8 @@ export interface ICustomerProfile {
   phone?: number;
   address?: string;
   __v: number;
+  followers: string[];
+  following: string[];
 }
 ////////////////////ADMIN/////////////////////
 

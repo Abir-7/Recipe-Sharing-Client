@@ -1,24 +1,12 @@
 "use server";
 import axiosInstance from "@/lib/axiosInstance";
 import { revalidateTag } from "next/cache";
+import { FieldValues } from "react-hook-form";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export const createRecipe = async (rdata: { recipe: string }) => {
+export const createRecipe = async (rdata: FieldValues) => {
   try {
     const { data } = await axiosInstance.post(`/recipe/add-recipe`, rdata);
-    return data;
-  } catch (error: any) {
-    if (error.response.data.message) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error(error);
-    }
-  }
-};
-
-export const getMyRecipe = async () => {
-  try {
-    const { data } = await axiosInstance.get(`/recipe/my-recipe`);
     return data;
   } catch (error: any) {
     if (error.response.data.message) {
@@ -88,6 +76,53 @@ export const unpublishAdminrecipe = async (rid: { rId: string }) => {
       throw new Error(error.response.data.message);
     } else {
       throw new Error(error);
+    }
+  }
+};
+
+export const getSingleUserRecipe = async (
+  search = "",
+  sort = "",
+  category = "",
+  currentPage = 1,
+  pageSize = 10
+) => {
+  try {
+    const { data } = await axiosInstance.get(`/recipe/my-recipe`, {
+      params: {
+        search,
+        sort,
+        category,
+        currentPage,
+        pageSize,
+      },
+    });
+    revalidateTag("recipe");
+    return data;
+  } catch (error: any) {
+    if (error.response?.data?.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error.message || error);
+    }
+  }
+};
+export const getAllRecipe = async (search = "", sort = "", category = "") => {
+  try {
+    const { data } = await axiosInstance.get(`/recipe`, {
+      params: {
+        search,
+        sort,
+        category,
+      },
+    });
+    revalidateTag("recipe");
+    return data;
+  } catch (error: any) {
+    if (error.response?.data?.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error.message || error);
     }
   }
 };

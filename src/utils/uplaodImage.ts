@@ -2,6 +2,7 @@
 import envConfig from "@/config/envConfig";
 
 export const uploadImageToCloudinary = async (file: any) => {
+  console.log(file, "image");
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", envConfig.cloudinary_preset as string);

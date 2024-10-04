@@ -44,6 +44,9 @@ export interface IRecipe {
   isPublished: boolean;
   isDeleted: boolean;
   isPremium: boolean;
+  title: string;
+  category: string;
+  photo: string;
 }
 
 export interface IRecipeResponse {
