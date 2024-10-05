@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,14 +16,53 @@ import useDebounce from "@/utils/useDebounce";
 import { Rating } from "@smastrom/react-rating";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const RecipeData = () => {
   const [search, setSearch] = useState<string>("");
   const [sort, setSort] = useState<string>("averageRating");
   const [category, setCategory] = useState<string>("");
   const debouncedSearch = useDebounce(search, 500);
-  const { data, isLoading } = useGetAllRecipe(debouncedSearch, sort, category);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const limit = 10;
+  const { data, isLoading, refetch } = useGetAllRecipe(
+    debouncedSearch,
+    sort,
+    category,
+    page,
+    limit
+  );
+  const [recipeData, setRecipeData] = useState<IRecipeResponse[]>([]);
+
+  useEffect(() => {
+    if (data?.data?.recipes) {
+      setTotalPage(Math.ceil(data?.data?.total / limit));
+      setRecipeData(data.data.recipes);
+    }
+  }, [data]);
+  console.log(totalPage, page);
+  useEffect(() => {
+    refetch(); // Refetch data when page changes
+  }, [page]);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        document.documentElement.scrollHeight
+      ) {
+        if (totalPage > page && !isLoading) {
+          setPage((prev) => prev + 1); // Trigger page increment
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [totalPage, page, isLoading]);
 
   return (
     <div className="">
@@ -68,7 +108,7 @@ const RecipeData = () => {
         ) : (
           <div className="container mx-auto mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10  justify-items-center">
             {" "}
-            {data?.data?.recipes.map((item: IRecipeResponse, i: number) => (
+            {recipeData?.map((item: IRecipeResponse, i: number) => (
               <div
                 key={i}
                 className=" w-64 border h-[475px]   p-4  shadow-md rounded-lg "
@@ -99,7 +139,7 @@ const RecipeData = () => {
 
                   <div className="text-sm mt-1 grid">
                     <span className="font-semibold">posted by:</span>{" "}
-                    <span>{item?.customer.email}</span>
+                    <span>{item?.customer?.email}</span>
                   </div>
                   <div className="flex justify-between mt-2 ">
                     <div className="flex gap-2 text-green-500 items-center text-sm">

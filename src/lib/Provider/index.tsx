@@ -6,7 +6,7 @@ import { Toaster } from "sonner";
 export interface ProvidersProps {
   children: React.ReactNode;
 }
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 const Providers = ({ children }: ProvidersProps) => {
   return (

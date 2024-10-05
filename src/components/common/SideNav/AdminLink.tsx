@@ -23,7 +23,7 @@ const AdminLink = () => {
       <Link
         href="/admin/dashboard"
         className={
-          pathname == "/user/dashboard"
+          pathname == "/admin/dashboard"
             ? "bg-yellow-400 px-4 py-1 rounded-xl border-2 border-white"
             : " w-full px-4 py-1 rounded-xl border border-yellow-400"
         }
@@ -106,7 +106,7 @@ const AdminLink = () => {
             <Link
               href="/admin/manage-user"
               className={
-                pathname == "/user/about"
+                pathname == "/admin/manage-user"
                   ? "bg-yellow-400 px-4 text-gray-950 font-semibold py-1 rounded-xl border-2 border-white"
                   : " w-full px-4 py-1 font-semibold rounded-xl border border-yellow-400"
               }

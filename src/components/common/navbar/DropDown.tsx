@@ -27,7 +27,13 @@ export const DropDown = ({ navLink, user, authLink }: IProps) => {
         {/* dynamic */}
         {user?.email && (
           <Avatar className=" outline-none ms-2">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarImage
+              src={
+                user?.photo ||
+                "https://static.vecteezy.com/system/resources/previews/029/156/453/original/admin-business-icon-businessman-business-people-male-avatar-profile-pictures-man-in-suit-for-your-web-site-design-logo-app-ui-solid-style-illustration-design-on-white-background-eps-10-vector.jpg"
+              }
+              alt="@shadcn"
+            />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         )}

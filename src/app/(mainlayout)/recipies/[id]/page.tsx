@@ -37,11 +37,22 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = async ({ params }) => {
             className="w-full h-full object-cover"
             height={400}
             width={400}
-            src={data.recipe.photo}
+            src={data?.recipe?.photo}
             alt=""
           />
         </div>
-        <Fiilter isPremium={data?.recipe?.isPremium}></Fiilter>
+        <div>
+          <p className="text-3xl text-center font-bold mt-3">
+            Title: {data?.recipe?.title}
+          </p>
+          <p className="text-xl font-bold mt-3 text-center">
+            Category: {data?.recipe?.category}
+          </p>
+        </div>
+        <Fiilter
+          user={data?.customer?.email}
+          isPremium={data?.recipe?.isPremium}
+        ></Fiilter>
         <div key={data?._id}>
           <div className="relative w-full h-full ">
             <div

@@ -26,7 +26,7 @@ const UserLink = () => {
       <Link
         href="/user/manage-profile"
         className={
-          pathname == "/user/edit-profile"
+          pathname == "/user/manage-profile"
             ? "bg-yellow-400 px-4 py-1 rounded-xl border-2 text-gray-950 font-semibold border-white"
             : " w-full px-4 py-1 rounded-xl border font-semibold border-yellow-400"
         }

@@ -43,3 +43,10 @@ export const useUpdateAdmin = () => {
     },
   });
 };
+
+// export const useAdminDashboard = () => {
+//   return useQuery({
+//     queryKey: ["ADMIN_DASHBOARD"], // Include the id in the
+//     queryFn: async () => await dashboardAdmin(),
+//   });
+// };

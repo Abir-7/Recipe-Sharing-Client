@@ -10,7 +10,7 @@ export const blockUser = async (id: string) => {
     const { data } = await axiosInstance.patch(`/user/block-user/${id}`);
     return data;
   } catch (error: any) {
-    if (error.response.data.message) {
+    if (error?.response?.data?.message) {
       throw new Error(error.response.data.message);
     } else {
       throw new Error(error);
@@ -23,8 +23,8 @@ export const deleteUser = async (id: string) => {
     const { data } = await axiosInstance.patch(`/user/delete-user/${id}`);
     return data;
   } catch (error: any) {
-    if (error.response.data.message) {
-      throw new Error(error.response.data.message);
+    if (error?.response?.data.message) {
+      throw new Error(error?.response?.data.message);
     } else {
       throw new Error(error);
     }
@@ -46,10 +46,23 @@ export const updateAdmin = async ({
     revalidateTag("admin");
     return data;
   } catch (error: any) {
-    if (error.response.data.message) {
-      throw new Error(error.response.data.message);
+    if (error?.response?.data.message) {
+      throw new Error(error?.response?.data.message);
     } else {
       throw new Error(error);
     }
   }
 };
+
+// export const dashboardAdmin = async () => {
+//   try {
+//     const { data } = await axiosInstance.get(`/admin/dashboard`);
+//     return data;
+//   } catch (error: any) {
+//     if (error.response.data.message) {
+//       throw new Error(error.response.data.message);
+//     } else {
+//       throw new Error(error);
+//     }
+//   }
+// };

@@ -2,21 +2,29 @@
 import envConfig from "@/config/envConfig";
 
 export const uploadImageToCloudinary = async (file: any) => {
-  console.log(file, "image");
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", envConfig.cloudinary_preset as string);
-  formData.append("cloud_name", envConfig.cloudinary_cloudname as string);
+  try {
+    if (!file) throw new Error("No file provided");
 
-  const response = await fetch(
-    `https://api.cloudinary.com/v1_1/${envConfig.cloudinary_cloudname}/image/upload`,
-    {
-      method: "POST",
-      body: formData,
-    }
-  );
+    const { cloudinary_preset, cloudinary_cloudname } = envConfig;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", cloudinary_preset as string);
+    formData.append("cloud_name", cloudinary_cloudname as string);
 
-  const data = await response.json();
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${cloudinary_cloudname}/image/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
-  return data.secure_url;
+    if (!response.ok) throw new Error("Image upload failed");
+
+    const data = await response.json();
+    return data?.secure_url || null;
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    return null;
+  }
 };

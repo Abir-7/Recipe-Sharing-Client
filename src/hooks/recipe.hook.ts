@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { queryClient } from "@/lib/Provider";
 import {
   createRecipe,
   deleteAdminrecipe,
   deleteMyrecipe,
   getAllRecipe,
+  getRecipeDetails,
   getSingleUserRecipe,
   ratingOperation,
   unpublishAdminrecipe,
+  updateRecipe,
 } from "@/services/RecepeService";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
@@ -77,6 +80,26 @@ export const useAdminUnpublishRecipe = () => {
     },
   });
 };
+export const useUpdateRecipe = () => {
+  return useMutation<any, Error, { rId: string; data: FieldValues }>({
+    mutationKey: ["UPDATE_RECIPE"],
+    mutationFn: async (data) => await updateRecipe(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["USER_RECIPE"] });
+      toast.success("Recipe Updated changed.");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+export const useGetRecipeDetails = (id: string) => {
+  return useQuery({
+    queryKey: ["GEt_RECIPE_DETAILS", id], // Include the id in the
+    queryFn: () => getRecipeDetails(id), // Pass the id to the query function
+    enabled: !!id, // Only run the query if id exists
+  });
+};
 
 export const useSingleUserRecipe = (
   search: string,
@@ -101,12 +124,14 @@ export const useSingleUserRecipe = (
 export const useGetAllRecipe = (
   search: string,
   sort: string,
-  category: string
+  category: string,
+  page: number,
+  limit: number
 ) => {
   return useQuery({
-    queryKey: ["All_RECIPE", search, sort, category],
+    queryKey: ["All_RECIPE", search, sort, category, page, limit],
     queryFn: async () => {
-      return await getAllRecipe(search, sort, category);
+      return await getAllRecipe(search, sort, category, page, limit);
     },
   });
 };

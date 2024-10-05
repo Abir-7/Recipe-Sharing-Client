@@ -43,7 +43,7 @@ const Modal: React.FC<ModalProps> = ({
           {icon}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="w-[330px] sm:w-96 md:w-[800px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

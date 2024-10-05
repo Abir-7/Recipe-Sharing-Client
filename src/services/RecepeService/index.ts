@@ -9,8 +9,8 @@ export const createRecipe = async (rdata: FieldValues) => {
     const { data } = await axiosInstance.post(`/recipe/add-recipe`, rdata);
     return data;
   } catch (error: any) {
-    if (error.response.data.message) {
-      throw new Error(error.response.data.message);
+    if (error?.response?.data?.message) {
+      throw new Error(error?.response?.data?.message);
     } else {
       throw new Error(error);
     }
@@ -24,8 +24,8 @@ export const ratingOperation = async (ratingData: Record<string, unknown>) => {
 
     return data;
   } catch (error: any) {
-    if (error.response.data.message) {
-      throw new Error(error.response.data.message);
+    if (error?.response?.data?.message) {
+      throw new Error(error?.response?.data?.message);
     } else {
       throw new Error(error);
     }
@@ -40,7 +40,7 @@ export const deleteMyrecipe = async (rid: { rId: string }) => {
     revalidateTag("recepe");
     return data;
   } catch (error: any) {
-    if (error.response.data.message) {
+    if (error?.response?.data?.message) {
       throw new Error(error.response.data.message);
     } else {
       throw new Error(error);
@@ -56,8 +56,8 @@ export const deleteAdminrecipe = async (rid: { rId: string }) => {
     revalidateTag("recepe");
     return data;
   } catch (error: any) {
-    if (error.response.data.message) {
-      throw new Error(error.response.data.message);
+    if (error?.response?.data?.message) {
+      throw new Error(error?.response?.data.message);
     } else {
       throw new Error(error);
     }
@@ -70,6 +70,38 @@ export const unpublishAdminrecipe = async (rid: { rId: string }) => {
       `/recipe/admin-recipe-publish/${rid.rId}`
     );
     revalidateTag("recepe");
+    return data;
+  } catch (error: any) {
+    if (error?.response?.data?.message) {
+      throw new Error(error?.response?.data.message);
+    } else {
+      throw new Error(error);
+    }
+  }
+};
+export const updateRecipe = async (rData: {
+  rId: string;
+  data: FieldValues;
+}) => {
+  try {
+    const { data } = await axiosInstance.patch(
+      `/recipe/recipe/${rData.rId}`,
+      rData.data
+    );
+    revalidateTag("recepe");
+    return data;
+  } catch (error: any) {
+    if (error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error);
+    }
+  }
+};
+
+export const getRecipeDetails = async (id: string) => {
+  try {
+    const { data } = await axiosInstance.get(`/recipe/${id}`);
     return data;
   } catch (error: any) {
     if (error.response.data.message) {
@@ -107,13 +139,21 @@ export const getSingleUserRecipe = async (
     }
   }
 };
-export const getAllRecipe = async (search = "", sort = "", category = "") => {
+export const getAllRecipe = async (
+  search: string,
+  sort: string,
+  category: string,
+  page: number,
+  limit: number
+) => {
   try {
     const { data } = await axiosInstance.get(`/recipe`, {
       params: {
         search,
         sort,
         category,
+        page,
+        limit,
       },
     });
     revalidateTag("recipe");

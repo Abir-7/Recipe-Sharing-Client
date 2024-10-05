@@ -12,7 +12,7 @@ export const createAdmin = async (userData: FieldValues) => {
     return data;
   } catch (error: any) {
     if (error?.response?.data.message) {
-      throw new Error(error?.response.data.message);
+      throw new Error(error?.response?.data.message);
     } else {
       throw new Error(error);
     }
@@ -24,7 +24,7 @@ export const registerUser = async (userData: FieldValues) => {
     const { data } = await axiosInstance.post("/user/signup", userData);
     return data;
   } catch (error: any) {
-    if (error?.response.data.message) {
+    if (error?.response?.data?.message) {
       throw new Error(error?.response.data.message);
     } else {
       throw new Error(error);
@@ -37,7 +37,11 @@ export const loginUser = async (userData: FieldValues) => {
     const { data } = await axiosInstance.post("/auth/login", userData);
 
     if (data?.success) {
-      cookies().set("accessToken", data?.data?.token?.accessToken);
+      cookies().set("accessToken", data?.data?.token?.accessToken, {
+        sameSite: true,
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 365,
+      });
     }
     return data;
   } catch (error: any) {

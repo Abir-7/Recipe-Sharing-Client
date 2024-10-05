@@ -50,7 +50,7 @@ const RatingOperation = ({
   };
   const onFormSubmit = async (data: FieldValues) => {
     const filteredData = filterEmptyValues(data);
-    console.log(filteredData);
+
     handleRating({ ...filteredData, recipeId });
   };
   const [oldComment, setOldComment] = useState("");

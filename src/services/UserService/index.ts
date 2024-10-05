@@ -11,7 +11,7 @@ export const userFollow = async (userID: { userID: string }) => {
     return data;
   } catch (error: any) {
     if (error?.response?.data.message) {
-      throw new Error(error.response.data.message);
+      throw new Error(error?.response?.data?.message);
     } else {
       throw new Error(error);
     }
@@ -28,7 +28,7 @@ export const userUnfollow = async (userID: { userID: string }) => {
     return data;
   } catch (error: any) {
     if (error?.response?.data.message) {
-      throw new Error(error.response.data.message);
+      throw new Error(error?.response?.data.message);
     } else {
       throw new Error(error);
     }

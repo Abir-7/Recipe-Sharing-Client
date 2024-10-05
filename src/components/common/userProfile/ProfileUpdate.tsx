@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import CForm from "../Form/CForm";
 import { FieldValues } from "react-hook-form";
 import CInput from "../Form/CInput";
@@ -13,10 +13,8 @@ import { Button } from "@/components/ui/button";
 import ChangePassModal from "./ChangePassModal";
 import Modal from "../modal/Modal";
 import { useCreatePayment } from "@/hooks/payment.hook";
-import { AuthContext } from "@/context/auth.provider";
 
 const ProfileUpdate = () => {
-  const authData = useContext(AuthContext);
   const [isPending, setIsPending] = useState(false);
   const { mutate: updateProfile } = useUserInfoUpdate();
   const { mutate: createPayment } = useCreatePayment();
@@ -54,28 +52,24 @@ const ProfileUpdate = () => {
       <div className="flex justify-between">
         <h1 className="text-2xl font-semibold mb-6 ">Update Profile</h1>
         <div className="flex items-center gap-2">
-          {authData?.user?.hasValidSubscription ? (
-            <div className="bg-yellow-400 px-5 py-2 font-bold rounded-full">
-              Premium User
-            </div>
-          ) : (
-            <Modal
-              title="2 Month Subcription"
-              btnType={"default"}
-              btnText="Buy Subcription"
-              description="You will get access to premium recipe."
+          <Modal
+            title="2 Month Subcription"
+            btnType={"default"}
+            btnText="Buy Subcription"
+            description="You will get access to premium recipe."
+            btnCss="bg-green-500 rounded-full hover:bg-yellow-400  hover:text-gray-950"
+          >
+            <div
+              onClick={() => handleSubcribe(400)}
+              className="w-2/3 active:scale-90 hover:scale-110 duration-150 py-4 rounded-md mx-auto text-center bg-gray-950 grid"
             >
-              <div
-                onClick={() => handleSubcribe(400)}
-                className="w-2/3 active:scale-90 hover:scale-110 duration-150 py-4 rounded-md mx-auto text-center bg-gray-950 grid"
-              >
-                <span className="text-yellow-400 font-bold">400 tk</span>
-                <span className="text-green-500 text-2xl font-bold">
-                  Subcribe Now
-                </span>
-              </div>
-            </Modal>
-          )}
+              <span className="text-yellow-400 font-bold">400 tk</span>
+              <span className="text-green-500 text-2xl font-bold">
+                Subcribe Now
+              </span>
+            </div>
+          </Modal>
+
           <ChangePassModal></ChangePassModal>
         </div>
       </div>

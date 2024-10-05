@@ -7,8 +7,8 @@ function page() {
   return (
     <div>
       <Banner></Banner>
-      <TopUser></TopUser>
       <TopRecipes></TopRecipes>
+      <TopUser></TopUser>
     </div>
   );
 }

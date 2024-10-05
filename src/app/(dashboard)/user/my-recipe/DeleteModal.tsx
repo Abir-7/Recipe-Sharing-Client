@@ -14,7 +14,7 @@ const DeleteModal = ({ recipeId }: { recipeId: string }) => {
       <Modal
         title="Are you sure you want to delete?"
         btnText="Delete"
-        btnCss="w-full"
+        btnCss="w-full bg-red-500 hover:bg-red-600"
       >
         <Button onClick={() => handleDelete(recipeId)} variant={"destructive"}>
           Yes

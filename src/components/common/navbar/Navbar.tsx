@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-
+import logo from "@/public/logo.png";
 import Link from "next/link";
 import React, { useContext, useState } from "react";
 import { DropDown } from "./DropDown";
 import { AuthContext, IUserProviderValues } from "@/context/auth.provider";
 import { Button } from "@/components/ui/button";
 import { DropDownUser } from "./DropDownUser";
+import Image from "next/image";
 export const Navbar = () => {
   const [linkName, setLinkName] = useState("");
   const authContext = useContext(AuthContext);
@@ -14,8 +15,6 @@ export const Navbar = () => {
   const navLink = [
     { name: "Home", url: "/" },
     { name: "Recipies", url: "/recipies" },
-    { name: "About Us", url: "/about-us" },
-    { name: "Contact Us", url: "/contact-us" },
   ];
   const authLink = [
     {
@@ -34,7 +33,19 @@ export const Navbar = () => {
     <div className="w-full  h-14  bg-gray-950 text-white px-2 relative">
       <div className=" h-full grid grid-cols-3 items-center  ">
         <div>
-          <p className="text-xl font-bold">LOGO</p>
+          <div className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse ">
+            <Image
+              width={100}
+              height={100}
+              src={logo}
+              className="w-10 h-10 object-cover"
+              alt="Flowbite Logo"
+            />
+
+            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
+              Recipe World
+            </span>
+          </div>
         </div>
         <div className="col-span-2  hidden md:flex items-center justify-between ">
           <div className="flex gap-3 font-medium">
@@ -43,8 +54,8 @@ export const Navbar = () => {
                 onClick={() => setLinkName(item.name)}
                 className={
                   linkName == item.name
-                    ? "px-4 py-1 rounded-md bg-yellow-400"
-                    : "px-4 py-1 rounded-md hover:bg-yellow-400"
+                    ? "px-4 py-1 rounded-md text-gray-950 bg-yellow-400"
+                    : "px-4 py-1 rounded-md hover:bg-yellow-400 hover:text-gray-950"
                 }
                 key={i}
                 href={item.url}
@@ -58,7 +69,7 @@ export const Navbar = () => {
           ) : (
             <div>
               {user?.email ? (
-                <DropDownUser authLink={authLink} />
+                <DropDownUser user={user} authLink={authLink} />
               ) : (
                 <Link href={"/login-signup"}>
                   <Button className="px-4 py-1 rounded-md bg-yellow-400 hover:bg-yellow-500">

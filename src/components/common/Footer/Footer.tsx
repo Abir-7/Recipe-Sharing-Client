@@ -1,44 +1,36 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-
+import logo from "@/public/logo.png";
+import Image from "next/image";
+import Link from "next/link";
 const Footer = () => {
   return (
     <footer className="rounded-lg shadow bg-gray-950 mt-5">
       <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
         <div className="sm:flex sm:items-center sm:justify-between">
-          <a
-            href="https://flowbite.com/"
-            className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
-          >
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8"
+          <div className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse ">
+            <Image
+              width={100}
+              height={100}
+              src={logo}
+              className="w-10 h-10 object-cover"
               alt="Flowbite Logo"
             />
+
             <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
-              Flowbite
+              Recipe World
             </span>
-          </a>
+          </div>
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium  sm:mb-0 text-white">
             <li>
-              <a href="#" className="hover:underline me-4 md:me-6">
+              <Link href="/about-us" className="hover:underline me-4 md:me-6">
                 About
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:underline me-4 md:me-6">
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline me-4 md:me-6">
-                Licensing
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline">
+              <Link href="/contact-us" className="hover:underline">
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

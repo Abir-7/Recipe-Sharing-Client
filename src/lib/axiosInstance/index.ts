@@ -1,3 +1,5 @@
+"use server";
+import { LogOut } from "@/components/common/logoutButton/LogOut";
 import envConfig from "@/config/envConfig";
 import axios from "axios";
 import { cookies } from "next/headers";
@@ -27,10 +29,15 @@ axiosInstance.interceptors.request.use(
 // Add a response interceptor
 axiosInstance.interceptors.response.use(
   function (response) {
-    console.log(response);
     return response;
   },
   function (error) {
+    const config = error.config;
+    if (error.response && error.response.status === 401 && !config?.sent) {
+      // Dispatch the logout action
+      LogOut();
+    }
+
     return Promise.reject(error);
   }
 );

@@ -1,45 +1,42 @@
 import HeaderTitle from "@/components/common/HeaderTitle/HeaderTitle";
+import UserProfile from "@/components/common/userProfile/UserProfile";
 import envConfig from "@/config/envConfig";
-import { IUserDashboardData } from "@/interface/dashboard.interface";
+
 import { cookies } from "next/headers";
+import Link from "next/link";
 import React from "react";
 
 const UserDashboard = async () => {
   const token = cookies().get("accessToken")?.value;
-  const response = await fetch(`${envConfig.baseApi}/customer/dashboard`, {
+
+  const responsee = await fetch(`${envConfig.baseApi}/customer/dashboard`, {
     headers: {
       Authorization: `${token}`,
     },
-    next: { tags: ["recepe_details"] },
+    next: { tags: ["dashboar-data"] },
   });
-  const { data }: { data: IUserDashboardData } = await response.json();
+
+  const response = await fetch(`${envConfig?.baseApi}/user/me`, {
+    headers: {
+      Authorization: `${token}`,
+    },
+  });
+
+  const { data } = await response.json();
+
+  const data2 = await responsee.json();
 
   return (
     <div>
       <HeaderTitle text="User Dashboard"></HeaderTitle>
-      <div className="flex justify-around flex-wrap gap-10 mt-10">
-        <div className="bg-gray-950 rounded-xl text-center py-4 text-white w-52">
-          <p>Following</p>
-          <p className="text-4xl text-yellow-400">
-            {data?.mydata?.followers?.length
-              ? data?.mydata?.followers?.length
-              : 0}
-          </p>
-        </div>
-        <div className="bg-gray-950 rounded-xl text-center py-4 text-white w-52">
-          <p>My Recipe</p>
-          <p className="text-4xl text-yellow-400">
-            {data?.myRacipe.length ? data?.myRacipe.length : 0}
-          </p>
-        </div>
-        <div className="bg-gray-950 rounded-xl text-center py-4 text-white w-52">
-          <p>Followers </p>
-          <p className="text-4xl text-yellow-400">
+
+      <UserProfile dashboardData={data2?.data} userData={data}></UserProfile>
+      <div className="px-2 flex justify-center">
+        <div className="bg-gray-950 mt-5 w-56 text-2xl flex-col flex duration-200 cursor-pointer hover:bg-gray-900 justify-center items-center py-4 px-8 rounded-full ">
+          <Link href="/user/my-recipe" className="text-yellow-400">
             {" "}
-            {data?.mydata?.following?.length
-              ? data?.mydata?.followers?.length
-              : 0}
-          </p>
+            My Recipes
+          </Link>
         </div>
       </div>
     </div>
