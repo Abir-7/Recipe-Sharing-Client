@@ -1,4 +1,3 @@
-import img from "@/public/user.jpg";
 import {
   DropdownMenu,
   DropdownMenuContent,
