@@ -30,7 +30,7 @@ export const useCreatePayment = () => {
       }
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };

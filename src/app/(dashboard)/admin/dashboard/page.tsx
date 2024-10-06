@@ -13,7 +13,7 @@ const AdminDashboard = async () => {
     },
   });
   const { data } = await response.json();
-  console.log(data);
+
   return (
     <div>
       <HeaderTitle text="Admin Dashboard"></HeaderTitle>

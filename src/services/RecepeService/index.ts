@@ -120,7 +120,7 @@ export const getSingleUserRecipe = async (
   pageSize = 10
 ) => {
   try {
-    const { data } = await axiosInstance.get(`/recipe/my-recipe`, {
+    const { data, status } = await axiosInstance.get(`/recipe/my-recipe`, {
       params: {
         search,
         sort,
@@ -129,9 +129,11 @@ export const getSingleUserRecipe = async (
         pageSize,
       },
     });
+    console.log(status);
     revalidateTag("recipe");
     return data;
   } catch (error: any) {
+    console.log(error.response?.data);
     if (error.response?.data?.message) {
       throw new Error(error.response.data.message);
     } else {

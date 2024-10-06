@@ -7,12 +7,12 @@ import HeaderTitle from "@/components/common/HeaderTitle/HeaderTitle";
 import { useCreateAdmin } from "@/hooks/auth.hook";
 
 import { uploadImageToCloudinary } from "@/utils/uplaodImage";
-import React from "react";
+import React, { useEffect } from "react";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
 const AddAdmin = () => {
-  const { mutate: createAdmin } = useCreateAdmin();
+  const { mutate: createAdmin, error, isPending } = useCreateAdmin();
   const onFormSubmit = async (data: FieldValues) => {
     const { userName, email, password, photo, address, phone } = data;
 
@@ -31,6 +31,11 @@ const AddAdmin = () => {
       }
     }
   };
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  }, [error]);
   return (
     <div>
       <HeaderTitle text="Add Admin"></HeaderTitle>
@@ -43,7 +48,10 @@ const AddAdmin = () => {
             <CInput required={true} name="phone" label="Mobile"></CInput>
             <CInput required={true} name="address" label="Address"></CInput>
             <CImageInput required={true}></CImageInput>
-            <CButton text="Create Admin"></CButton>
+            <CButton
+              isPending={isPending}
+              text={isPending ? "Creating..." : "Create Admin"}
+            ></CButton>
           </div>
         </CForm>
       </div>

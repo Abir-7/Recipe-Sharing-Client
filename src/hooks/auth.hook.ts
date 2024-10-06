@@ -21,7 +21,7 @@ export const useCreateAdmin = () => {
       toast.success("Admin create successful.");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -34,7 +34,7 @@ export const useUserRegistration = () => {
       toast.success("User registration successful.");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -47,7 +47,7 @@ export const useUserLogin = () => {
       toast.success("User login successful.");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -60,7 +60,7 @@ export const useResetPass = () => {
       toast.success("Reset link sent to your email successfuly.");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -72,7 +72,7 @@ export const useSetNewPass = () => {
       toast.success("Password reset successful.");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -85,7 +85,7 @@ export const useUpdatePass = () => {
       toast.success("Password changed successfuly.");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -98,7 +98,7 @@ export const useUserInfoUpdate = () => {
       toast.success("User updated successfuly.");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };

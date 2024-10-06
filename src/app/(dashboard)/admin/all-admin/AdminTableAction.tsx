@@ -4,7 +4,6 @@ import CForm from "@/components/common/Form/CForm";
 import CImageInput from "@/components/common/Form/CImageInput";
 import CInput from "@/components/common/Form/CInput";
 import Modal from "@/components/common/modal/Modal";
-import { Button } from "@/components/ui/button";
 
 import { DialogClose } from "@/components/ui/dialog";
 import {
@@ -13,6 +12,7 @@ import {
   useUpdateAdmin,
 } from "@/hooks/admin.hook";
 import { uploadImageToCloudinary } from "@/utils/uplaodImage";
+
 import React, { useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
@@ -147,11 +147,8 @@ const AdminTableAction = ({ userId }: { userId: string }) => {
             <CInput name="phone" label="Mobile"></CInput>
             <CInput name="address" label="Address"></CInput>
             <CImageInput></CImageInput>
-            {isPending ? (
-              <Button disabled={true}>Updating....</Button>
-            ) : (
-              <CButton text="Update Data"></CButton>
-            )}
+
+            <CButton isPending={isPending} text="Update Data"></CButton>
           </div>
         </CForm>
       </Modal>

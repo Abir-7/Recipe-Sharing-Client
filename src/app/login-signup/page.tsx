@@ -12,7 +12,7 @@ import { AuthContext } from "@/context/auth.provider";
 import { useUserLogin, useUserRegistration } from "@/hooks/auth.hook";
 import { uploadImageToCloudinary } from "@/utils/uplaodImage";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useContext, useState } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { ResetPassModal } from "./ResetPassModal";
@@ -21,10 +21,20 @@ const Login_Signup = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const redirects = searchParams.get("redirects");
-  const { mutate: userReg } = useUserRegistration();
-  const { mutate: userLogin, isPending, isSuccess } = useUserLogin();
+  const {
+    mutate: userReg,
+    isPending: isPending2,
+    error: regError,
+  } = useUserRegistration();
+  const {
+    mutate: userLogin,
+    isPending,
+    isSuccess,
+    error: loginError,
+  } = useUserLogin();
   const [activeTab, setActiveTab] = useState<string>("signin");
   const authData = useContext(AuthContext);
+
   const onFormSubmit = async (userdata: FieldValues) => {
     const { userName, email, password, photo } = userdata;
 
@@ -53,7 +63,16 @@ const Login_Signup = () => {
       }
     }
   };
-
+  useEffect(() => {
+    if (loginError?.message) {
+      toast.error(loginError?.message);
+    }
+  }, [loginError]);
+  useEffect(() => {
+    if (regError?.message) {
+      toast.error(regError?.message);
+    }
+  }, [regError]);
   const handleTabChange = (value: string) => {
     setActiveTab(value);
   };
@@ -85,14 +104,19 @@ const Login_Signup = () => {
             <CardContent className="space-y-2 ">
               <CForm onFormSubmit={onFormSubmit}>
                 <div className="grid gap-3">
-                  <CInput name="email" label="Email"></CInput>
+                  <CInput required={true} name="email" label="Email"></CInput>
                   <CInput
+                    required={true}
                     type="password"
                     name="password"
                     label="Password"
                   ></CInput>
 
-                  <CButton cssClass="" text="Login"></CButton>
+                  <CButton
+                    isPending={isPending}
+                    cssClass=""
+                    text={isPending ? "Loading...." : "Login"}
+                  ></CButton>
                 </div>
               </CForm>
               <ResetPassModal></ResetPassModal>
@@ -107,15 +131,20 @@ const Login_Signup = () => {
             <CardContent className="space-y-2">
               <CForm onFormSubmit={onFormSubmit}>
                 <div className="grid gap-3">
-                  <CInput name="userName" label="Name"></CInput>
-                  <CInput name="email" label="Email"></CInput>
+                  <CInput required={true} name="userName" label="Name"></CInput>
+                  <CInput required={true} name="email" label="Email"></CInput>
                   <CInput
+                    required={true}
                     type="password"
                     name="password"
                     label="Password"
                   ></CInput>
-                  <CImageInput></CImageInput>
-                  <CButton cssClass="" text="Signup"></CButton>
+                  <CImageInput required={true}></CImageInput>
+                  <CButton
+                    isPending={isPending}
+                    cssClass=""
+                    text={isPending2 ? "Loading...." : "Signup"}
+                  ></CButton>
                 </div>
               </CForm>
             </CardContent>

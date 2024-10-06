@@ -41,7 +41,7 @@ const RecipeData = () => {
       setRecipeData(data.data.recipes);
     }
   }, [data]);
-  console.log(totalPage, page);
+
   useEffect(() => {
     refetch(); // Refetch data when page changes
   }, [page]);

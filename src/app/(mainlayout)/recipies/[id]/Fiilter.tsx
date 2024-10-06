@@ -10,7 +10,6 @@ const Fiilter = ({
   user: string;
 }) => {
   const userData = useContext(AuthContext);
-  console.log(user);
 
   return (
     <>

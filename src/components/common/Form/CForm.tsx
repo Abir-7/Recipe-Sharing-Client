@@ -35,6 +35,7 @@ const CForm = ({
   const methods = useForm(formConfig);
 
   const submit = async (data: FieldValues) => {
+    console.log(data);
     await onFormSubmit(data);
     methods.reset();
   };

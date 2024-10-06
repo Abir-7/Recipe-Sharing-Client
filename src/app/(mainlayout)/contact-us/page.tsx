@@ -6,16 +6,20 @@ import CForm from "@/components/common/Form/CForm";
 import CInput from "@/components/common/Form/CInput";
 import CTextArea from "@/components/common/Form/CTextArea";
 import { useUserMessage } from "@/hooks/contact.hook";
-import React from "react";
+import React, { useEffect } from "react";
 import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 const ContactUs = () => {
-  const { mutate: postMessage, error } = useUserMessage();
+  const { mutate: postMessage, isPending, error } = useUserMessage();
   const onFormSubmit = async (data: FieldValues) => {
-    console.log(data);
     postMessage(data);
   };
-  console.log(error);
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message || "Something went wrong");
+    }
+  }, [error]);
   return (
     <div className="container mx-auto p-8">
       <h1 className="text-4xl font-bold mb-6 text-center">Contact Us</h1>
@@ -44,7 +48,11 @@ const ContactUs = () => {
             placeholder="Message"
             name="message"
           ></CTextArea>
-          <CButton cssClass="w-full" text="send"></CButton>
+          <CButton
+            isPending={isPending}
+            cssClass="w-full"
+            text="send"
+          ></CButton>
         </div>
       </CForm>
     </div>

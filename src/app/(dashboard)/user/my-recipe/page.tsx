@@ -35,7 +35,7 @@ const MyRecipe = () => {
     currentPage,
     pageSize
   );
-  console.log(data);
+
   const total = data?.data?.total || 0;
   const totalPages = Math.ceil(total / pageSize);
 

@@ -9,7 +9,7 @@ import { AuthContext } from "@/context/auth.provider";
 import { useRatingOperation } from "@/hooks/recipe.hook";
 import { useRouter } from "next/navigation";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -29,7 +29,7 @@ const RatingOperation = ({
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const { mutate: addRating } = useRatingOperation();
+  const { mutate: addRating, isPending, error } = useRatingOperation();
 
   const handleRating = (data: Record<string, unknown>) => {
     const filteredData = filterEmptyValues(data);
@@ -75,7 +75,11 @@ const RatingOperation = ({
   if (!userData?.user && !userData?.isLoading) {
     router.push("/login-signup");
   }
-
+  useEffect(() => {
+    if (error) {
+      toast.success(error?.message);
+    }
+  }, [error]);
   return (
     <div>
       {isOpen && (
@@ -187,7 +191,7 @@ const RatingOperation = ({
                     name="comment"
                   ></CInput>
                   <CRating label=""></CRating>
-                  <CButton text="Add"></CButton>
+                  <CButton isPending={isPending} text="Add"></CButton>
                 </div>
               </CForm>
             )}

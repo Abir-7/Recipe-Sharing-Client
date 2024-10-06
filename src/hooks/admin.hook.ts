@@ -13,7 +13,7 @@ export const useBlockUser = () => {
       toast.success("User is blocked successfuly");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -26,7 +26,7 @@ export const useDeleteUser = () => {
       toast.success("User is deleted successfuly");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -39,7 +39,7 @@ export const useUpdateAdmin = () => {
       toast.success("Admin is updated successfuly");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };

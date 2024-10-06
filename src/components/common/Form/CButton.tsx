@@ -1,9 +1,17 @@
 "use client";
 import { Button } from "@/components/ui/button";
 
-const CButton = ({ cssClass, text }: { text: string; cssClass?: string }) => {
+const CButton = ({
+  cssClass,
+  text,
+  isPending,
+}: {
+  text: string;
+  cssClass?: string;
+  isPending: boolean;
+}) => {
   return (
-    <Button className={` ${cssClass}`} type="submit">
+    <Button disabled={isPending} className={` ${cssClass}`} type="submit">
       {text}
     </Button>
   );

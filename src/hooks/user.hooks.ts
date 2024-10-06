@@ -12,7 +12,7 @@ export const useUpdatePass = () => {
       toast.success("Password changed successfuly.");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -24,7 +24,7 @@ export const useFollowUser = () => {
       toast.success("you started following this user.");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -37,7 +37,7 @@ export const useUnfollowUser = () => {
       toast.success("you unfollow a user.");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };

@@ -20,8 +20,6 @@ const UserProfile = ({
 
   const authData: IUserProviderValues | undefined = useContext(AuthContext);
 
-  console.log(dashboardData);
-
   return (
     <div className=" shadow mx-auto rounded-xl overflow-hidden mt-10">
       <div className="sm:flex sm:items-center px-6 py-4">

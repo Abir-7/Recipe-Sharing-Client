@@ -3,18 +3,22 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFormContext, Controller } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CImageInput = ({ required = false }: { required?: boolean }) => {
   const {
     control,
     setValue,
-    formState: { errors },
+
+    formState: { errors, isSubmitting },
   } = useFormContext();
 
   // State to hold the image preview URL
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-
+  useEffect(() => {
+    setImagePreview(null);
+  }, [isSubmitting]);
+  console.log(isSubmitting);
   return (
     <div>
       {imagePreview && (

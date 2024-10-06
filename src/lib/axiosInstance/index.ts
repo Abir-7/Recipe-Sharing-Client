@@ -1,8 +1,9 @@
 "use server";
-import { LogOut } from "@/components/common/logoutButton/LogOut";
+
 import envConfig from "@/config/envConfig";
 import axios from "axios";
 import { cookies } from "next/headers";
+import { useResetUser } from "./resetUser";
 
 const axiosInstance = axios.create({
   baseURL: envConfig.baseApi,
@@ -32,12 +33,13 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   function (error) {
-    const config = error.config;
-    if (error.response && error.response.status === 401 && !config?.sent) {
-      // Dispatch the logout action
-      LogOut();
-    }
+    console.log(error, "ggggggggggg11231312");
+    if (error.response && error.response.status === 401) {
+      console.log(error, "ggggggggggg11231312");
 
+      cookies().delete("accessToken");
+      useResetUser();
+    }
     return Promise.reject(error);
   }
 );

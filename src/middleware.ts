@@ -15,8 +15,6 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const user = await getCurrentUser();
 
-  console.log(pathname, "gggg");
-
   // Allow access to /recipies for all users
   if (pathname === "/recipies") {
     return NextResponse.next();
@@ -60,7 +58,6 @@ export const config = {
     "/user/:page*",
     "/admin",
     "/user",
-    "/user/manage-profile",
     "/recipies/:page*",
     "/user/dashboard",
     "/user/manage-profile",

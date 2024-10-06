@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "../modal/Modal";
 import CForm from "../Form/CForm";
 import { FieldValues } from "react-hook-form";
@@ -8,7 +8,7 @@ import { useUpdatePass } from "@/hooks/auth.hook";
 import CButton from "../Form/CButton";
 
 const ChangePassModal = () => {
-  const { mutate: updateUserPass } = useUpdatePass();
+  const { mutate: updateUserPass, error, isPending } = useUpdatePass();
   const onFormSubmit = async (data: FieldValues) => {
     if (data.password !== data.cPassword) {
       toast.error("Password not matched.");
@@ -16,6 +16,11 @@ const ChangePassModal = () => {
       updateUserPass({ oldPass: data.oldPass, newPass: data.password });
     }
   };
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  }, [error]);
   return (
     <Modal
       title="Update Password"
@@ -32,7 +37,7 @@ const ChangePassModal = () => {
             name="cPassword"
             type="password"
           ></CInput>
-          <CButton text="Update Password"></CButton>
+          <CButton isPending={isPending} text="Update Password"></CButton>
         </div>
       </CForm>
     </Modal>

@@ -8,12 +8,13 @@ import HeaderTitle from "@/components/common/HeaderTitle/HeaderTitle";
 
 import { useGetRecipeDetails, useUpdateRecipe } from "@/hooks/recipe.hook";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 const UpdateRecipe = ({ params }: { params: { id: string } }) => {
   const { data } = useGetRecipeDetails(params?.id);
-  console.log(params.id);
+
   const filterEmptyValues = (data: FieldValues) => {
     return Object.fromEntries(
       Object.entries(data).filter(
@@ -26,12 +27,17 @@ const UpdateRecipe = ({ params }: { params: { id: string } }) => {
       )
     );
   };
-  const { mutate: updateRecipe } = useUpdateRecipe();
+  const { mutate: updateRecipe, isPending, error } = useUpdateRecipe();
 
   const onSubmit = async (data: FieldValues) => {
     const filterdData = filterEmptyValues(data);
     updateRecipe({ rId: params?.id, data: filterdData });
   };
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  }, [error]);
   return (
     <div className=" ">
       <HeaderTitle text="Update Recipe"></HeaderTitle>
@@ -47,7 +53,7 @@ const UpdateRecipe = ({ params }: { params: { id: string } }) => {
 
             <CTextEditor label="Recipe Content" name="recipe"></CTextEditor>
 
-            <CButton text="Add Recipe"></CButton>
+            <CButton isPending={isPending} text="Add Recipe"></CButton>
           </div>
         </CForm>
       </div>

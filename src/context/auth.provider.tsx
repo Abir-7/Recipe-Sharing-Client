@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const handleUser = async () => {
     try {
       const currentUser = await getCurrentUser();
+      console.log(currentUser, "user");
       setUser(currentUser);
     } catch (error) {
       console.error("Error fetching user:", error);

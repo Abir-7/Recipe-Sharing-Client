@@ -24,7 +24,7 @@ export const useCreateRecipe = () => {
       toast.success("Recipe created successfuly.");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -37,7 +37,7 @@ export const useRatingOperation = () => {
       toast.success("Feedback added");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -50,7 +50,7 @@ export const useDeleteRecipe = () => {
       toast.success("Recipe Deleted");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -63,7 +63,7 @@ export const useAdminDeleteRecipe = () => {
       toast.success("Recipe Deleted");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -76,7 +76,7 @@ export const useAdminUnpublishRecipe = () => {
       toast.success("Publish status changed.");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -89,7 +89,7 @@ export const useUpdateRecipe = () => {
       toast.success("Recipe Updated changed.");
     },
     onError: (error) => {
-      toast.error(error.message);
+      throw new Error(error.message);
     },
   });
 };
@@ -109,7 +109,14 @@ export const useSingleUserRecipe = (
   pageSize: number
 ) => {
   return useQuery({
-    queryKey: ["USER_RECIPE", search, sort, category, currentPage, pageSize],
+    queryKey: [
+      "USER_RECIPE",
+      (search = ""),
+      (sort = ""),
+      (category = ""),
+      (currentPage = 1),
+      (pageSize = 5),
+    ],
     queryFn: async () => {
       return await getSingleUserRecipe(
         search,

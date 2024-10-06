@@ -5,7 +5,7 @@ import CInput from "@/components/common/Form/CInput";
 import { useSetNewPass } from "@/hooks/auth.hook";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { Suspense } from "react"; // Import Suspense
+import React, { Suspense, useEffect } from "react"; // Import Suspense
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -16,12 +16,7 @@ const ResetPassword = () => {
   const token = searchParams.get("token");
   const email = searchParams.get("email");
 
-  const { mutate: changePassword } = useSetNewPass();
-
-  if (!token || !email) {
-    router.push("/");
-    return null; // Prevent rendering if token or email is not present
-  }
+  const { mutate: changePassword, isPending, error } = useSetNewPass();
 
   const onFormSubmit = async (data: FieldValues) => {
     if (data.password !== data.cPassword) {
@@ -30,7 +25,15 @@ const ResetPassword = () => {
       changePassword({ token: token as string, password: data.password });
     }
   };
-
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  }, [error]);
+  if (!token || !email) {
+    router.push("/");
+    return null; // Prevent rendering if token or email is not present
+  }
   return (
     <div>
       <div className="container mx-auto">
@@ -53,7 +56,7 @@ const ResetPassword = () => {
                   label="Confirm Password"
                   name="cPassword"
                 />
-                <CButton text="Change Password" />
+                <CButton isPending={isPending} text="Change Password" />
               </div>
             </CForm>
           </div>

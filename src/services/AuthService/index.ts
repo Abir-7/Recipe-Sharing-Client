@@ -25,7 +25,7 @@ export const registerUser = async (userData: FieldValues) => {
     return data;
   } catch (error: any) {
     if (error?.response?.data?.message) {
-      throw new Error(error?.response.data.message);
+      throw new Error(error?.response?.data?.message);
     } else {
       throw new Error(error);
     }
@@ -46,7 +46,7 @@ export const loginUser = async (userData: FieldValues) => {
     return data;
   } catch (error: any) {
     if (error?.response?.data.message) {
-      throw new Error(error.response.data.message);
+      throw new Error(error?.response?.data.message);
     } else {
       throw new Error(error);
     }
@@ -61,8 +61,10 @@ export const getCurrentUser = async () => {
   if (token) {
     decode = await jwtDecode(token as string);
   }
+
   return await decode;
 };
+
 export const logOutUser = async () => {
   cookies().delete("accessToken");
 };
