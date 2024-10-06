@@ -20,6 +20,7 @@ const UserDashboard = async () => {
     headers: {
       Authorization: `${token}`,
     },
+    next: { tags: ["dashboar-data"] },
   });
 
   const { data } = await response.json();
