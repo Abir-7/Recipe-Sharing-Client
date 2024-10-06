@@ -31,11 +31,17 @@ const UserProfile = ({
           height={96}
         />
         <div className="mt-4 text-center sm:mt-0 sm:ml-4 sm:text-left">
-          <div className="flex justify-between">
+          <div className="flex  flex-col justify-center sm:flex-row sm:justify-between sm:flex-wrap mb-2">
             <p className="text-xl leading-tight">{userData?.userName}</p>
-            <p className="font-bold bg-yellow-400 px-3 py-1 rounded-full leading-tight text-sm">
-              {authData?.user?.hasValidSubscription && "PREMIUM USER"}
-            </p>
+            {authData?.user?.hasValidSubscription ? (
+              <p className="font-bold bg-yellow-400 px-3 py-1 rounded-full leading-tight text-sm">
+                PREMIUM USER
+              </p>
+            ) : (
+              <p className="font-bold bg-gray-950 text-yellow-400 px-3 py-1 rounded-full leading-tight text-sm">
+                REGULAR USER
+              </p>
+            )}
           </div>
           <p className="text-sm leading-tight text-gray-600">
             {userData?.email}
@@ -48,7 +54,7 @@ const UserProfile = ({
             recusandae officiis.
           </div>
 
-          <div className="flex gap-5 justify-between px-4 bg-gray-950 mt-4 h-7 items-center">
+          <div className="flex gap-5 justify-between px-4 bg-gray-950 mt-4 h-14 sm:h-9 items-center">
             <div className="flex gap-3">
               <div className="text-sm">
                 <span className="text-yellow-400 "> Follower: </span>

@@ -17,7 +17,7 @@ const AdminDashboard = async () => {
   return (
     <div>
       <HeaderTitle text="Admin Dashboard"></HeaderTitle>
-      <div className="grid grid-cols-3  text-yellow-400 text-xl font-bold gap-4 justify-items-center container mx-auto mt-10">
+      <div className="grid grid-cols-1 sm:grid-cols-3  text-yellow-400 text-xl font-bold gap-4 justify-items-center container mx-auto mt-10">
         <Link
           className="w-48 h-28 bg-gray-950 rounded-lg flex-col flex justify-center items-center gap-2"
           href={"/admin/manage-user"}

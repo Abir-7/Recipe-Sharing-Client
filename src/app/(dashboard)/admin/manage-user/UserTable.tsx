@@ -3,63 +3,57 @@ import TableAction from "./TableAction";
 
 const UserTable = ({ users }: { users: ICustomerProfile[] }) => {
   return (
-    <div className="relative overflow-x-auto">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" className="px-6 py-3">
-              Name
-            </th>
-
-            <th scope="col" className="px-6 py-3">
-              Email
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Role
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Address
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Mobile
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Bio
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Action
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((uData) => (
-            <tr
-              key={uData._id}
-              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-            >
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                {uData?.userName}
+    <div className="overflow-x-auto">
+      <div className="w-96 md:w-full mt-2 flex justify-center ">
+        <table className=" bg-white">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 bg-gray-950 text-yellow-400 font-bold uppercase text-sm">
+                Name
               </th>
-              <td className="px-6 py-4">{uData?.email}</td>
-              <td className="px-6 py-4">{uData.user?.role}</td>
-              <td className="px-6 py-4">
-                {uData?.address ? uData?.address : "N/A"}
-              </td>
-              <td className="px-6 py-4">
-                {uData?.phone ? uData?.phone : "N/A"}
-              </td>
-              <td className="px-6 py-4">{uData?.bio ? uData?.bio : "N/A"}</td>
-              <td className="">
-                {" "}
-                <TableAction userId={uData._id}></TableAction>
-              </td>
+              <th className="py-2 px-4 bg-gray-950 text-yellow-400 font-bold uppercase text-sm">
+                Email
+              </th>
+              <th className="py-2 px-4 bg-gray-950 text-yellow-400 font-bold uppercase text-sm">
+                Role
+              </th>
+              <th className="py-2 px-4 bg-gray-950 text-yellow-400 font-bold uppercase text-sm">
+                Address
+              </th>
+              <th className="py-2 px-4 bg-gray-950 text-yellow-400 font-bold uppercase text-sm">
+                Phone
+              </th>
+              <th className="py-2 px-4 bg-gray-950 text-yellow-400 font-bold uppercase text-sm">
+                Action
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users?.map((user) => (
+              <tr key={user._id}>
+                <td className="py-2 px-4 border-b border-gray-200">
+                  {user?.userName}
+                </td>
+                <td className="py-2 px-4 border-b border-gray-200">
+                  {user?.email}
+                </td>
+                <td className="py-2 px-4 border-b border-gray-200">
+                  {user?.user?.role}
+                </td>
+                <td className="py-2 px-4 border-b border-gray-200">
+                  {user?.address ? user?.address : "N/A"}
+                </td>
+                <td className="py-2 px-4 border-b border-gray-200">
+                  {user?.phone ? user.phone : "N/A"}
+                </td>
+                <td className="py-2 px-4 border-b border-gray-200">
+                  <TableAction userId={user?.user._id}></TableAction>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

@@ -16,9 +16,8 @@ const ManageUsers = async () => {
   return (
     <div className="max-w-full">
       <HeaderTitle text="Manage User"></HeaderTitle>
-      <div className="overflow-x-auto max-w-[99%]">
-        <UserTable users={data}></UserTable>
-      </div>
+
+      <UserTable users={data}></UserTable>
     </div>
   );
 };
