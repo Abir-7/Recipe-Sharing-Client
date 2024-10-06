@@ -5,6 +5,7 @@ import axiosInstance from "@/lib/axiosInstance";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 import { ICustomerProfile } from "@/interface/userProfile.interface";
+import { revalidateTag } from "next/cache";
 
 export const createAdmin = async (userData: FieldValues) => {
   try {
@@ -117,6 +118,7 @@ export const changePassword = async (passData: {
 export const changeUserInfo = async (userData: Partial<ICustomerProfile>) => {
   try {
     const { data } = await axiosInstance.patch("/user/upate-profile", userData);
+    revalidateTag("dashboar-data");
     return data;
   } catch (error: any) {
     if (error?.response?.data.message) {
