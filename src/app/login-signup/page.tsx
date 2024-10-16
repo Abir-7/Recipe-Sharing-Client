@@ -44,7 +44,6 @@ const Login_Signup = () => {
     } else {
       if (photo) {
         const uploadedImageUrl = await uploadImageToCloudinary(photo);
-
         if (!uploadedImageUrl) {
           toast.error("Something went wrong. Try again.");
         } else {

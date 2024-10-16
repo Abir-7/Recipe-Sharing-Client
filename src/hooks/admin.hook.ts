@@ -2,6 +2,7 @@
 
 import { blockUser, deleteUser, updateAdmin } from "@/services/AdminService";
 import { useMutation } from "@tanstack/react-query";
+
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -43,10 +44,3 @@ export const useUpdateAdmin = () => {
     },
   });
 };
-
-// export const useAdminDashboard = () => {
-//   return useQuery({
-//     queryKey: ["ADMIN_DASHBOARD"], // Include the id in the
-//     queryFn: async () => await dashboardAdmin(),
-//   });
-// };

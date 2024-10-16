@@ -1,25 +1,20 @@
 "use server";
-
 import envConfig from "@/config/envConfig";
+import { logOutUser2 } from "@/services/AuthService";
 import axios from "axios";
 import { cookies } from "next/headers";
-import { useResetUser } from "./resetUser";
+import { redirect, RedirectType } from "next/navigation";
 
 const axiosInstance = axios.create({
   baseURL: envConfig.baseApi,
 });
 
-export default axiosInstance;
-
 axiosInstance.interceptors.request.use(
   function (config) {
-    const cookieStore = cookies();
-
-    const accessToken = cookieStore.get("accessToken")?.value;
+    const accessToken = cookies().get("accessToken")?.value;
     if (accessToken) {
       config.headers.Authorization = accessToken;
     }
-
     return config;
   },
   function (error) {
@@ -27,19 +22,18 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Add a response interceptor
 axiosInstance.interceptors.response.use(
   function (response) {
     return response;
   },
-  function (error) {
-    console.log(error, "ggggggggggg11231312");
+  async function (error) {
     if (error.response && error.response.status === 401) {
-      console.log(error, "ggggggggggg11231312");
-
-      cookies().delete("accessToken");
-      useResetUser();
+      await logOutUser2();
+      console.log("first");
+      redirect("/", RedirectType.push);
     }
     return Promise.reject(error);
   }
 );
+
+export default axiosInstance;

@@ -48,6 +48,7 @@ export const useDeleteRecipe = () => {
     mutationFn: async (data) => await deleteMyrecipe(data),
     onSuccess: () => {
       toast.success("Recipe Deleted");
+      queryClient.invalidateQueries({ queryKey: ["USER_RECIPE"] });
     },
     onError: (error) => {
       throw new Error(error.message);
@@ -109,14 +110,7 @@ export const useSingleUserRecipe = (
   pageSize: number
 ) => {
   return useQuery({
-    queryKey: [
-      "USER_RECIPE",
-      (search = ""),
-      (sort = ""),
-      (category = ""),
-      (currentPage = 1),
-      (pageSize = 5),
-    ],
+    queryKey: ["USER_RECIPE", search, sort, category, currentPage, pageSize],
     queryFn: async () => {
       return await getSingleUserRecipe(
         search,

@@ -7,6 +7,10 @@ import { FieldValues } from "react-hook-form";
 import { ICustomerProfile } from "@/interface/userProfile.interface";
 import { revalidateTag } from "next/cache";
 
+export const logOutUser2 = async () => {
+  cookies().delete("accessToken");
+};
+
 export const createAdmin = async (userData: FieldValues) => {
   try {
     const { data } = await axiosInstance.post("/user/create-admin", userData);

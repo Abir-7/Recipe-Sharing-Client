@@ -13,6 +13,7 @@ const roleBasedRoutes = {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
   const user = await getCurrentUser();
 
   // Allow access to /recipies for all users
@@ -30,6 +31,23 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  if (user?.role && roleBasedRoutes[user?.role as Role]) {
+    const routes = roleBasedRoutes[user?.role as Role];
+
+    if (routes.some((route) => pathname.match(route))) {
+      return NextResponse.next();
+    }
+  }
+  if (!user?.role && roleBasedRoutes[user?.role as Role]) {
+    const routes = roleBasedRoutes[user?.role as Role];
+
+    if (routes.some((route) => pathname.match(route))) {
+      return NextResponse.redirect(
+        new URL(`/login-signup?redirects=${pathname}`, request.url)
+      );
+    }
+  }
+
   if (!user) {
     if (AuthRoutes.includes(pathname)) {
       return NextResponse.next();
@@ -39,15 +57,6 @@ export async function middleware(request: NextRequest) {
       );
     }
   }
-
-  if (user?.role && roleBasedRoutes[user?.role as Role]) {
-    const routes = roleBasedRoutes[user?.role as Role];
-
-    if (routes.some((route) => pathname.match(route))) {
-      return NextResponse.next();
-    }
-  }
-
   return NextResponse.redirect(new URL("/", request.url));
 }
 

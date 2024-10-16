@@ -53,7 +53,7 @@ const UpdateRecipe = ({ params }: { params: { id: string } }) => {
 
             <CTextEditor label="Recipe Content" name="recipe"></CTextEditor>
 
-            <CButton isPending={isPending} text="Add Recipe"></CButton>
+            <CButton isPending={isPending} text="Update Recipe"></CButton>
           </div>
         </CForm>
       </div>
