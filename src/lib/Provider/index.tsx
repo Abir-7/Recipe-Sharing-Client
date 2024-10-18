@@ -6,14 +6,14 @@ import { Toaster } from "sonner";
 export interface ProvidersProps {
   children: React.ReactNode;
 }
+
 export const queryClient = new QueryClient();
 
 const Providers = ({ children }: ProvidersProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Toaster />
-        {children}
+        <Toaster /> {children}
       </AuthProvider>
     </QueryClientProvider>
   );

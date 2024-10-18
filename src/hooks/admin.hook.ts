@@ -10,8 +10,8 @@ export const useBlockUser = () => {
   return useMutation<any, Error, string>({
     mutationKey: ["BLOCK_USER"],
     mutationFn: async (id) => await blockUser(id),
-    onSuccess: () => {
-      toast.success("User is blocked successfuly");
+    onSuccess: (res: any) => {
+      toast.success(res?.message);
     },
     onError: (error) => {
       throw new Error(error.message);

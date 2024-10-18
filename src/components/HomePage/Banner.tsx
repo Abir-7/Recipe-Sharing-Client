@@ -4,6 +4,7 @@ import banner1 from "@/public/banner.jpg";
 import Image from "next/image";
 
 import Link from "next/link";
+import ButtonAnimation from "../Animation/ButtonAnimation";
 
 const Banner = () => {
   return (
@@ -23,13 +24,9 @@ const Banner = () => {
         <p className="sm:text-lg text-base text-center text-gray-200">
           Embark on unforgettable journeys. Book your dream vacation today!
         </p>
-
-        <Link
-          href={"/recipies"}
-          className="mt-5 py-2 rounded-lg font-medium bg-yellow-400 px-5 text-gray-950 hover:bg-yellow-500"
-        >
-          Explore Now
-        </Link>
+        <ButtonAnimation>
+          <Link href={"/recipies"}>Explore Now</Link>
+        </ButtonAnimation>
       </div>
     </div>
   );

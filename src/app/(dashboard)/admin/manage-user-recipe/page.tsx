@@ -23,7 +23,7 @@ const AdminUserRecipe = async () => {
   return (
     <div>
       <HeaderTitle text="All User Recipe"></HeaderTitle>
-      <div className="container mx-auto mt-5 w-auto  grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 justify-items-center 2xl:grid-cols-5 ">
+      <div className="container mx-auto mt-5 w-auto  grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 justify-items-center 2xl:grid-cols-5 mb-5 ">
         {(data as IRecipeResponse[])?.map((item, i) => (
           // eslint-disable-next-line react/jsx-key
           <div

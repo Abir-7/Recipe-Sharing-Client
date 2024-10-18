@@ -10,8 +10,9 @@ import { DropDownUser } from "./DropDownUser";
 import Image from "next/image";
 export const Navbar = () => {
   const [linkName, setLinkName] = useState("");
+  console.log(linkName, "gg");
   const authContext = useContext(AuthContext);
-  const { user, isLoading, setUser } = authContext as IUserProviderValues;
+  const { user, isLoading } = authContext as IUserProviderValues;
   const navLink = [
     { name: "Home", url: "/" },
     { name: "Recipies", url: "/recipies" },

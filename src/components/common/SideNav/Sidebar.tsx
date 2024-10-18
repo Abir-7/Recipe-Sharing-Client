@@ -5,6 +5,7 @@ import React, { ReactNode, useContext, useState } from "react";
 import { AuthContext } from "@/context/auth.provider";
 import UserLink from "./UserLink";
 import AdminLink from "./AdminLink";
+import Transition from "@/components/Animation/Transition";
 
 const Sidebar = ({ children }: { children: ReactNode }) => {
   const authData = useContext(AuthContext);
@@ -42,7 +43,10 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
 
       {/* Content Section */}
       <div className="flex-grow ">
-        <div className="w-full min-h-screen">{children}</div>
+        <div className="w-full min-h-screen">
+          {" "}
+          <Transition>{children}</Transition>
+        </div>
       </div>
 
       {/* Mobile toggle button */}

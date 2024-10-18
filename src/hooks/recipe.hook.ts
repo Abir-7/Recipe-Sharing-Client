@@ -21,6 +21,7 @@ export const useCreateRecipe = () => {
     mutationKey: ["CREATE_RECIPE"],
     mutationFn: async (re) => await createRecipe(re),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["USER_RECIPE"] });
       toast.success("Recipe created successfuly.");
     },
     onError: (error) => {

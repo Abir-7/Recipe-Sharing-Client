@@ -5,7 +5,13 @@ import { DialogClose } from "@/components/ui/dialog";
 import { useBlockUser, useDeleteUser } from "@/hooks/admin.hook";
 import React from "react";
 
-const TableAction = ({ userId }: { userId: string }) => {
+const TableAction = ({
+  userId,
+  isblocked,
+}: {
+  userId: string;
+  isblocked: boolean;
+}) => {
   const { mutate: deleteUser } = useDeleteUser();
   const { mutate: blockUser } = useBlockUser();
 
@@ -18,9 +24,15 @@ const TableAction = ({ userId }: { userId: string }) => {
   return (
     <div>
       <Modal
-        btnCss="text-red-500 hover:scale-110 active:scale-90 duration-500 "
+        btnCss={`text-red-500 hover:scale-110 active:scale-90 duration-500 ${
+          isblocked && "text-green-500"
+        }`}
         description=""
-        title="Are you sure you want to block?"
+        title={
+          isblocked
+            ? "Are you sure you want to unblock?"
+            : "Are you sure you want to block?"
+        }
         btnType={null}
         icon={
           <svg

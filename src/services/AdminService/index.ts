@@ -8,6 +8,8 @@ import { FieldValues } from "react-hook-form";
 export const blockUser = async (id: string) => {
   try {
     const { data } = await axiosInstance.patch(`/user/block-user/${id}`);
+    revalidateTag("all-user");
+    revalidateTag("admin");
     return data;
   } catch (error: any) {
     if (error?.response?.data?.message) {
@@ -21,6 +23,8 @@ export const blockUser = async (id: string) => {
 export const deleteUser = async (id: string) => {
   try {
     const { data } = await axiosInstance.patch(`/user/delete-user/${id}`);
+    revalidateTag("all-user");
+    revalidateTag("admin");
     return data;
   } catch (error: any) {
     if (error?.response?.data.message) {

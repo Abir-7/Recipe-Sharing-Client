@@ -10,6 +10,7 @@ const ManageUsers = async () => {
     headers: {
       Authorization: `${token}`,
     },
+    next: { tags: ["all-user"] },
   });
   const { data } = await response.json();
 

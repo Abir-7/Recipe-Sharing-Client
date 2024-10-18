@@ -14,6 +14,7 @@ export const logOutUser2 = async () => {
 export const createAdmin = async (userData: FieldValues) => {
   try {
     const { data } = await axiosInstance.post("/user/create-admin", userData);
+    revalidateTag("admin");
     return data;
   } catch (error: any) {
     if (error?.response?.data.message) {

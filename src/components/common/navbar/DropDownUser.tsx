@@ -29,7 +29,7 @@ export const DropDownUser = ({
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="mt-4 font-medium ">
+      <DropdownMenuContent className="mt-4 me-5 font-medium ">
         {authLink?.map((item, i) => (
           <DropdownMenuItem key={i}>
             <Link href={item.url}>{item.name}</Link>
